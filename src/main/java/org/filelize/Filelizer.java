@@ -103,6 +103,7 @@ public class Filelizer {
         }
     }
 
+
     private String getFilename(Object objectToWrite) {
         var filename = getJsonFilename(objectToWrite);
         if(filename == null) {
