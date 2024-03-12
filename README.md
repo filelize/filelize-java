@@ -14,7 +14,7 @@ Save a file:
     String filename = filelizer.save(something);
 ````
 
-SaveAll in one files:
+SaveAll in one file:
 ````java
     String filename = filelizer.saveAll("somethings.json", somethings);
 ````
