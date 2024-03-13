@@ -13,6 +13,16 @@ Add this to your pom.xml
 </dependency>
 ````
 
+Add JsonFilename to your model:
+````java
+public class Something {
+    @JsonFilename
+    private String id;
+    private String name;
+    ...
+}
+````
+
 Find a file:
 ````java
 Something something = filelizer.find("something.json", Something.class);
