@@ -44,7 +44,7 @@ public class FilelizerTest {
 
     @Test
     public void testSaveAllWithAnnotationJsonFilename() {
-        var somethings = new ArrayList<>();
+        var somethings = new ArrayList<Something>();
         somethings.add(createSomething("b1"));
         somethings.add(createSomething("b2"));
         List<String> filenames = filelizer.saveAll(somethings);

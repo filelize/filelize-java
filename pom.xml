@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.filelize</groupId>
 	<artifactId>filelize-java</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>filelize-java</name>
 	<description>When you just need a simple way to save some json data to a human-readable file</description>
 	<properties>

@@ -56,7 +56,7 @@ public class Filelizer {
         }
     }
 
-    public List<String> saveAll(List<Object> objects) {
+    public List<String> saveAll(List<?> objects) {
         var filenames = new ArrayList<String>();
         for(var object : objects) {
             String filename = save(object);
