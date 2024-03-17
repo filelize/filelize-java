@@ -1,6 +1,6 @@
 package org.filelize;
 
-@Filelize(type = FilelizeType.SINGLE_FILE)
+@Filelize(name = "something_single", type = FilelizeType.SINGLE_FILE)
 public class SomethingSingle {
     @Id
     private String id;

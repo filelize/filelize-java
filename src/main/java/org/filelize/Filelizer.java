@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.filelize.FilelizeUtil.getFilelizeId;
+import static org.filelize.FilelizeUtil.getFilelizeName;
+import static org.filelize.FilelizeUtil.getFilelizeType;
 
 public class Filelizer {
 
@@ -40,7 +42,7 @@ public class Filelizer {
     }
 
     public String save(Object object) {
-        var filename = getFilename(object);
+        String filename = getFilename(object);
         save(filename, object);
         return filename;
     }
@@ -72,12 +74,25 @@ public class Filelizer {
         return path + "/" + filename;
     }
 
-    private String getFilename(Object objectToWrite) {
-        var filename = getFilelizeId(objectToWrite);
-        if(filename == null) {
-            filename = objectToWrite.getClass().getSimpleName();
+    private String getFilename(Object object) {
+        var filelizeType = getFilelizeType(object, defaultFilelizeType);
+        if(filelizeType == FilelizeType.MULTIPLE_FILES) {
+            return getFilenameMultiple(object);
         }
-        filename += ".json";
-        return filename;
+        return getFilenameSingle(object);
+    }
+
+    private String getFilenameMultiple(Object obj) {
+        var name = getFilelizeName(obj);
+        var id = getFilelizeId(obj);
+        if(id == null) {
+            return name + ".json";
+        }
+        return name + "_" + id + ".json";
+    }
+
+    private String getFilenameSingle(Object obj) {
+        var name = getFilelizeName(obj);
+        return name + ".json";
     }
 }

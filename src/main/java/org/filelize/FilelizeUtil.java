@@ -5,6 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilelizeUtil {
+
+    public static String getFilelizeName(Object obj) {
+        var filelizeAnnotation = obj.getClass().getAnnotation(Filelize.class);
+        if (filelizeAnnotation != null) {
+            return filelizeAnnotation.name();
+        } else {
+            return obj.getClass().getSimpleName();
+        }
+    }
+
     public static FilelizeType getFilelizeType(Object obj, FilelizeType defaultFilelizeType) {
         var filelizeAnnotation = obj.getClass().getAnnotation(Filelize.class);
         if (filelizeAnnotation != null) {
