@@ -12,45 +12,45 @@ public class FilelizerTest {
     private final Filelizer filelizer;
 
     public FilelizerTest() {
-        filelizer = new Filelizer("src/test/resources/");
+        filelizer = new Filelizer("src/test/resources/something_else/");
     }
 
     @Test
     public void testSaveWithFilename(){
         var something = createSomething("a1");
-        String filename = filelizer.save("a1_custom_filename.json", something);
+        var filename = filelizer.save("a1_custom_filename.json", something);
 
-        Something response = filelizer.find(filename, Something.class);
+        var response = filelizer.find(filename, SomethingSingle.class);
         assertNotNull(response);
     }
 
     @Test
     public void testSaveWithAnnotatedWithJsonFilename() {
         var something = createSomething("a2");
-        String filename = filelizer.save(something);
+        var filename = filelizer.save(something);
 
-        Something response = filelizer.find(filename, Something.class);
+        var response = filelizer.find(filename, SomethingSingle.class);
         assertNotNull(response);
     }
 
     @Test
     public void testSaveWithoutAnnotation() {
         var somethingElse = createSomethingElse();
-        String filename = filelizer.save(somethingElse);
+        var filename = filelizer.save(somethingElse);
 
-        SomethingElse response = filelizer.find(filename, SomethingElse.class);
+        var response = filelizer.find(filename, SomethingElse.class);
         assertNotNull(response);
     }
 
     @Test
     public void testSaveAllWithAnnotationJsonFilename() {
-        var somethings = new ArrayList<Something>();
+        var somethings = new ArrayList<SomethingSingle>();
         somethings.add(createSomething("b1"));
         somethings.add(createSomething("b2"));
         List<String> filenames = filelizer.saveAll(somethings);
 
         for (var filename : filenames) {
-            Something response = filelizer.find(filename, Something.class);
+            SomethingSingle response = filelizer.find(filename, SomethingSingle.class);
             assertNotNull(response);
         }
     }
@@ -61,12 +61,12 @@ public class FilelizerTest {
         somethings.add(createSomething("b1"));
         somethings.add(createSomething("b2"));
         String filename = filelizer.saveAll("somethings.json", somethings);
-        List<Something> response = filelizer.find(filename, List.class);
+        List<SomethingSingle> response = filelizer.find(filename, List.class);
         assertNotNull(response);
     }
 
-    private static Something createSomething(String id) {
-        var something = new Something();
+    private static SomethingSingle createSomething(String id) {
+        var something = new SomethingSingle();
         something.setId(id);
         something.setName("Some Name");
         return something;
