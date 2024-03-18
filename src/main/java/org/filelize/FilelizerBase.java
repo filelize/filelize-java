@@ -5,10 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class FilelizerBase {
-    private final Logger log = LoggerFactory.getLogger(FilelizerMultiple.class);
     protected final String path;
     protected final JsonMapper jsonMapper;
 
@@ -20,16 +21,6 @@ public abstract class FilelizerBase {
     protected FilelizerBase(String path, JsonMapper jsonMapper) {
         this.path = path;
         this.jsonMapper = jsonMapper;
-    }
-
-    public <T> T find(String filename, Class<T> valueType) {
-        var fullPath = getFullPath(filename);
-        try {
-            return jsonMapper.readFile(fullPath, valueType);
-        } catch (IOException e) {
-            log.error("Error occurred when trying to get " + fullPath, e);
-            return null;
-        }
     }
 
     public String save(String filename, Object object) {
@@ -46,7 +37,7 @@ public abstract class FilelizerBase {
         return save(filename, objects);
     }
 
-    private String getFullPath(String filename) {
+    protected String getFullPath(String filename) {
         return path + "/" + filename;
     }
 }

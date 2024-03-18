@@ -22,19 +22,19 @@ public class FilelizerSomethingElseTest {
         var filename = filelizer.save(somethingElse);
         assertEquals("SomethingElse.json", filename);
 
-        var response = filelizer.find(filename, SomethingElse.class);
+        var response = filelizer.find(SomethingElse.class);
         assertNotNull(response);
     }
 
     @Test
-    public void testSaveAllWithAnnotationJsonFilename() {
+    public void testSaveAll() {
         var somethings = createSomethingElseList();
         List<String> filenames = filelizer.saveAll(somethings);
+        assertEquals("SomethingElse.json", filenames.get(0));
 
-        for (var filename : filenames) {
-            SomethingElse response = filelizer.find(filename, SomethingElse.class);
-            assertNotNull(response);
-        }
+        var response = filelizer.find(SomethingElse.class);
+        assertNotNull(response);
+
     }
 
     private static List<SomethingElse> createSomethingElseList() {

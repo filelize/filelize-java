@@ -3,15 +3,17 @@ package org.filelize;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FilelizeUtil {
 
-    /*public static String getFilelizeNameOfList(List<?> objects) {
+
+    public static String getFilelizeNameOfList(List<?> objects) {
         var filelizeNameOptional = objects.stream()
                 .map(FilelizeUtil::getFilelizeName)
                 .findFirst();
         return filelizeNameOptional.orElse("");
-    }*/
+    }
 
     public static String getFilelizeName(Object obj) {
         var filelizeAnnotation = obj.getClass().getAnnotation(Filelize.class);
@@ -39,7 +41,7 @@ public class FilelizeUtil {
     }
 
     public static String getFilelizeId(Object object) {
-        Class<?> clazz = object.getClass();
+        Class<?> clazz = getClazz(object);
         List<String> jsonFilenameList = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
@@ -50,7 +52,17 @@ public class FilelizeUtil {
         if(!jsonFilenameList.isEmpty()) {
             return String.join("_", jsonFilenameList);
         }
-        return null;
+        return String.valueOf(object.hashCode());
+    }
+
+    private static Class<?> getClazz(Object object) {
+        if(object instanceof Map) {
+            var optional = (((Map<?, ?>) object).values().stream().findFirst());
+            if(optional.isPresent()) {
+                return optional.get().getClass();
+            }
+        }
+        return object.getClass();
     }
 
     private static String getString(Object object, Field field) {

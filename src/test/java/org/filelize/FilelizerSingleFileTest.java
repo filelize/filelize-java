@@ -22,7 +22,7 @@ public class FilelizerSingleFileTest {
         var filename = filelizer.save(something);
         assertEquals("something_single.json", filename);
 
-        var response = filelizer.find(filename, SomethingSingle.class);
+        var response = filelizer.find(SomethingSingle.class);
         assertNotNull(response);
     }
 
@@ -32,7 +32,7 @@ public class FilelizerSingleFileTest {
         var filenames = filelizer.saveAll(somethings);
 
         for (var filename : filenames) {
-            var response = filelizer.find(filename, SomethingSingle.class);
+            var response = filelizer.find(SomethingSingle.class);
             assertNotNull(response);
         }
     }

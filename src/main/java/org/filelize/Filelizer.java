@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.filelize.FilelizeUtil.getFilelizeType;
 import static org.filelize.FilelizeUtil.getFilelizeTypeOfList;
@@ -31,12 +32,12 @@ public class Filelizer {
         this.defaultFilelizeType = defaultFilelizeType;
     }
 
-    public <T> T find(String filename, Class<T> valueType) {
+    public <T> Map<String, Object> find(Class<T> valueType) {
         var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.find(filename, valueType);
+            return filelizerSingle.find(valueType);
         }
-        return filelizerMultiple.find(filename, valueType);
+        return filelizerMultiple.find(valueType);
     }
 
     public String save(Object object) {
