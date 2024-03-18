@@ -1,0 +1,10 @@
+{
+  "b2" : {
+    "id" : "b2",
+    "name" : "Some Name"
+  },
+  "b1" : {
+    "id" : "b1",
+    "name" : "Some Name"
+  }
+}

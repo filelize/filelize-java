@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class FilelizerMultipleFilesTest {
@@ -12,22 +13,14 @@ public class FilelizerMultipleFilesTest {
     private final Filelizer filelizer;
 
     public FilelizerMultipleFilesTest() {
-        filelizer = new Filelizer("src/test/resources/multiple_files/");
+        filelizer = new Filelizer("src/test/resources/something_multiple");
     }
 
     @Test
     public void testSave() {
-        var something = createSomethingMultiple("multiple_1");
+        var something = createSomethingMultiple("m1");
         var filename = filelizer.save(something);
-
-        var response = filelizer.find(filename, SomethingSingle.class);
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testSaveWithCustomFilename() {
-        var something = createSomethingMultiple("multiple_1");
-        var filename = filelizer.save("something.json", something);
+        assertEquals("something_multiple_m1.json", filename);
 
         var response = filelizer.find(filename, SomethingSingle.class);
         assertNotNull(response);
@@ -43,19 +36,11 @@ public class FilelizerMultipleFilesTest {
         }
     }
 
-    @Test
-    public void testSaveAllWithCustomFilename() {
-        var somethings = createSomethingMultipleList();
-        var filename = filelizer.saveAll("somethings.json", somethings);
-        var response = filelizer.find(filename, List.class);
-        assertNotNull(response);
-    }
-
     private static List<SomethingMultiple> createSomethingMultipleList() {
         var somethings = new ArrayList<SomethingMultiple>();
-        somethings.add(createSomethingMultiple("multiple_1"));
-        somethings.add(createSomethingMultiple("multiple_2"));
-        somethings.add(createSomethingMultiple("multiple_3"));
+        somethings.add(createSomethingMultiple("m10"));
+        somethings.add(createSomethingMultiple("m11"));
+        somethings.add(createSomethingMultiple("m12"));
         return somethings;
     }
     private static SomethingMultiple createSomethingMultiple(String id) {

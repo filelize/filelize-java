@@ -4,95 +4,70 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.filelize.FilelizeUtil.getFilelizeId;
-import static org.filelize.FilelizeUtil.getFilelizeName;
 import static org.filelize.FilelizeUtil.getFilelizeType;
+import static org.filelize.FilelizeUtil.getFilelizeTypeOfList;
 
 public class Filelizer {
 
     private final Logger log = LoggerFactory.getLogger(Filelizer.class);
-    private final String path;
-    private final JsonMapper jsonMapper;
+
+    private FilelizerSingle filelizerSingle;
+    private FilelizerMultiple filelizerMultiple;
+
     private final FilelizeType defaultFilelizeType;
 
     public Filelizer(String path) {
-        this.path = path;
-        this.jsonMapper = new JsonMapper(new ObjectMapper());
+        var objectMapper = new ObjectMapper();
+        this.filelizerSingle = new FilelizerSingle(path, new JsonMapper(objectMapper));
+        this.filelizerMultiple = new FilelizerMultiple(path, new JsonMapper(objectMapper));
         this.defaultFilelizeType = FilelizeType.SINGLE_FILE;
     }
 
     public Filelizer(String path, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
-        this.path = path;
-        this.jsonMapper = new JsonMapper(objectMapper);
+        this.filelizerSingle = new FilelizerSingle(path, new JsonMapper(objectMapper));
+        this.filelizerMultiple = new FilelizerMultiple(path, new JsonMapper(objectMapper));
         this.defaultFilelizeType = defaultFilelizeType;
     }
 
     public <T> T find(String filename, Class<T> valueType) {
-        var fullPath = getFullPath(filename);
-        try {
-            return jsonMapper.readFile(fullPath, valueType);
-        } catch (IOException e) {
-            log.error("Error occurred when trying to get " + fullPath, e);
-            return null;
+        var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
+        if(filelizeType == FilelizeType.SINGLE_FILE) {
+            return filelizerSingle.find(filename, valueType);
         }
+        return filelizerMultiple.find(filename, valueType);
     }
 
     public String save(Object object) {
-        String filename = getFilename(object);
-        save(filename, object);
-        return filename;
+        var filelizeType = getFilelizeType(object, defaultFilelizeType);
+        if(filelizeType == FilelizeType.SINGLE_FILE) {
+            return filelizerSingle.save(object);
+        }
+        return filelizerMultiple.save(object);
     }
 
     public String save(String filename, Object object) {
-        try {
-            var fullPath = getFullPath(filename);
-            jsonMapper.writeFile(fullPath, object);
-            return filename;
-        } catch (IOException e) {
-            throw new RuntimeException("Error occurred when trying to opens or creates a file for writing",e);
+        var filelizeType = getFilelizeType(object, defaultFilelizeType);
+        if(filelizeType == FilelizeType.SINGLE_FILE) {
+            return filelizerSingle.save(filename, object);
         }
+        return filelizerMultiple.save(filename, object);
     }
 
     public List<String> saveAll(List<?> objects) {
-        var filenames = new ArrayList<String>();
-        for(var object : objects) {
-            String filename = save(object);
-            filenames.add(filename);
+        var filelizeType = getFilelizeTypeOfList(objects, defaultFilelizeType);
+        if(filelizeType == FilelizeType.SINGLE_FILE) {
+            return filelizerSingle.saveAll(objects);
         }
-        return filenames;
+        return filelizerMultiple.saveAll(objects);
     }
 
     public String saveAll(String filename, List<?> objects) {
-        return save(filename, objects);
-    }
-
-    private String getFullPath(String filename) {
-        return path + "/" + filename;
-    }
-
-    private String getFilename(Object object) {
-        var filelizeType = getFilelizeType(object, defaultFilelizeType);
-        if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            return getFilenameMultiple(object);
+        var filelizeType = getFilelizeTypeOfList(objects, defaultFilelizeType);
+        if(filelizeType == FilelizeType.SINGLE_FILE) {
+            return filelizerSingle.saveAll(filename, objects);
         }
-        return getFilenameSingle(object);
-    }
-
-    private String getFilenameMultiple(Object obj) {
-        var name = getFilelizeName(obj);
-        var id = getFilelizeId(obj);
-        if(id == null) {
-            return name + ".json";
-        }
-        return name + "_" + id + ".json";
-    }
-
-    private String getFilenameSingle(Object obj) {
-        var name = getFilelizeName(obj);
-        return name + ".json";
+        return filelizerMultiple.saveAll(filename, objects);
     }
 }

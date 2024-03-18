@@ -6,6 +6,13 @@ import java.util.List;
 
 public class FilelizeUtil {
 
+    /*public static String getFilelizeNameOfList(List<?> objects) {
+        var filelizeNameOptional = objects.stream()
+                .map(FilelizeUtil::getFilelizeName)
+                .findFirst();
+        return filelizeNameOptional.orElse("");
+    }*/
+
     public static String getFilelizeName(Object obj) {
         var filelizeAnnotation = obj.getClass().getAnnotation(Filelize.class);
         if (filelizeAnnotation != null) {
@@ -13,6 +20,13 @@ public class FilelizeUtil {
         } else {
             return obj.getClass().getSimpleName();
         }
+    }
+
+    public static FilelizeType getFilelizeTypeOfList(List<?> objects, FilelizeType defaultFilelizeType) {
+        var fileTypeOptional = objects.stream()
+                .map(obj -> getFilelizeType(obj, defaultFilelizeType))
+                .findFirst();
+        return fileTypeOptional.orElse(defaultFilelizeType);
     }
 
     public static FilelizeType getFilelizeType(Object obj, FilelizeType defaultFilelizeType) {

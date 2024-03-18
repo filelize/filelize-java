@@ -14,9 +14,14 @@ Add this to your pom.xml
 ````
 
 Add JsonFilename to your model:
+
 ````java
+import org.filelize.Filelize;
+import org.filelize.Id;
+
+@Filelize
 public class Something {
-    @JsonFilename
+    @Id
     private String id;
     private String name;
     ...
