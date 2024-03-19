@@ -1,5 +1,6 @@
 package org.filelize;
 
+import org.filelize.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,8 @@ public class FilelizerSingle extends FilelizerBase {
 
     @Override
     public <T> Map<String, T> findAll(String folder, Class<T> valueType) {
+
+
         return new HashMap<>();
     }
 

@@ -1,4 +1,4 @@
-package org.filelize;
+package org.filelize.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.filelize.FilelizeUtil.getFilelizeId;
-import static org.filelize.FilesUtil.ensureFile;
+import static org.filelize.file.FilesUtil.ensureFile;
 
 public class JsonMapper {
 

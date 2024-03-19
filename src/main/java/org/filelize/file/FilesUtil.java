@@ -1,4 +1,4 @@
-package org.filelize;
+package org.filelize.file;
 
 import java.io.IOException;
 import java.nio.file.Files;

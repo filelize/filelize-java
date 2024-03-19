@@ -1,5 +1,6 @@
 package org.filelize;
 
+import org.filelize.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
