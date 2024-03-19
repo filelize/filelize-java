@@ -10,7 +10,7 @@ import java.util.Map;
 import static org.filelize.FilelizeUtil.getFilelizeType;
 import static org.filelize.FilelizeUtil.getFilelizeTypeOfList;
 
-public class Filelizer {
+public class Filelizer implements IFilelizer{
 
     private final Logger log = LoggerFactory.getLogger(Filelizer.class);
 
@@ -32,12 +32,25 @@ public class Filelizer {
         this.defaultFilelizeType = defaultFilelizeType;
     }
 
-    public <T> Map<String, Object> find(Class<T> valueType) {
+    public String getPath() {
+        return filelizerSingle.getPath();
+    }
+
+    public <T> T find(String filename, Class<T> valueType) {
         var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.find(valueType);
+            return filelizerSingle.find(filename, valueType);
         }
-        return filelizerMultiple.find(valueType);
+        return filelizerMultiple.find(filename, valueType);
+    }
+
+    @Override
+    public <T> Map<String, Object> findAll(String path, Class<T> valueType) {
+        var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
+        if(filelizeType == FilelizeType.SINGLE_FILE) {
+            return filelizerSingle.findAll(path, valueType);
+        }
+        return filelizerMultiple.findAll(path, valueType);
     }
 
     public String save(Object object) {

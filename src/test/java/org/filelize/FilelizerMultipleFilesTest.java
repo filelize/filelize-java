@@ -22,7 +22,7 @@ public class FilelizerMultipleFilesTest {
         var filename = filelizer.save(something);
         assertEquals("something_multiple_m1.json", filename);
 
-        var response = filelizer.find(SomethingMultiple.class);
+        var response = filelizer.find(filename, SomethingMultiple.class);
         assertNotNull(response);
     }
 
@@ -30,8 +30,10 @@ public class FilelizerMultipleFilesTest {
     public void testSaveAll() {
         var somethings = createSomethingMultipleList();
         var filenames = filelizer.saveAll(somethings);
-        var response = filelizer.find(SomethingMultiple.class);
-        assertNotNull(response);
+        for (var filename : filenames) {
+            var response = filelizer.find(filename, SomethingMultiple.class);
+            assertNotNull(response);
+        }
     }
 
     private static List<SomethingMultiple> createSomethingMultipleList() {

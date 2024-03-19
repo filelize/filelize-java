@@ -22,7 +22,7 @@ public class FilelizerSomethingElseTest {
         var filename = filelizer.save(somethingElse);
         assertEquals("SomethingElse.json", filename);
 
-        var response = filelizer.find(SomethingElse.class);
+        var response = filelizer.find(filename, SomethingElse.class);
         assertNotNull(response);
     }
 
@@ -32,7 +32,8 @@ public class FilelizerSomethingElseTest {
         List<String> filenames = filelizer.saveAll(somethings);
         assertEquals("SomethingElse.json", filenames.get(0));
 
-        var response = filelizer.find(SomethingElse.class);
+        var folder = filelizer.getPath();
+        var response = filelizer.findAll(folder, SomethingElse.class);
         assertNotNull(response);
 
     }

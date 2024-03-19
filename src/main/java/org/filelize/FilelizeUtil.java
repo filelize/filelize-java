@@ -32,7 +32,8 @@ public class FilelizeUtil {
     }
 
     public static FilelizeType getFilelizeType(Object obj, FilelizeType defaultFilelizeType) {
-        var filelizeAnnotation = obj.getClass().getAnnotation(Filelize.class);
+        var clazz = getClazz(obj);
+        var filelizeAnnotation = clazz.getAnnotation(Filelize.class);
         if (filelizeAnnotation != null) {
             return filelizeAnnotation.type();
         } else {
@@ -56,7 +57,9 @@ public class FilelizeUtil {
     }
 
     private static Class<?> getClazz(Object object) {
-        if(object instanceof Map) {
+        if (object instanceof Class<?>) {
+            return (Class<?>) object;
+        } else if(object instanceof Map) {
             var optional = (((Map<?, ?>) object).values().stream().findFirst());
             if(optional.isPresent()) {
                 return optional.get().getClass();

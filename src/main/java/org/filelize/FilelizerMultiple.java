@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,13 +22,18 @@ public class FilelizerMultiple extends FilelizerBase {
         super(path, jsonMapper);
     }
 
-    public <T> Map<String, Object> find(Class<T> valueType) {
+    public <T> T find(String filename, Class<T> valueType) {
+        var fullPath = getFullPath(filename);
         try {
-            return jsonMapper.readFiles(path, valueType);
+            return jsonMapper.readFile(fullPath, valueType);
         } catch (IOException e) {
-            log.error("Error occurred when trying to get " + path, e);
+            log.error("Error occurred when trying to get " + fullPath, e);
             return null;
         }
+    }
+
+    public <T> Map<String, Object> findAll(String folder, Class<T> valueType) {
+        return new HashMap<>();
     }
 
     public String save(Object object) {

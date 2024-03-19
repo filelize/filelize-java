@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class FilelizerBase {
+public abstract class FilelizerBase implements IFilelizer {
     protected final String path;
     protected final JsonMapper jsonMapper;
 
@@ -21,6 +21,10 @@ public abstract class FilelizerBase {
     protected FilelizerBase(String path, JsonMapper jsonMapper) {
         this.path = path;
         this.jsonMapper = jsonMapper;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public String save(String filename, Object object) {

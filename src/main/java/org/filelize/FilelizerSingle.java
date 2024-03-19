@@ -21,15 +21,21 @@ public class FilelizerSingle extends FilelizerBase {
         super(path, jsonMapper);
     }
 
-    public <T> Map<String, Object> find(Class<T> valueType) {
+    @Override
+    public <T> T find(String filename, Class<T> valueType) {
         var name = getFilelizeName(valueType);
         var fullPath = getFullPath(name);
         try {
-            return jsonMapper.readFile(fullPath, Map.class);
+            return jsonMapper.readFile(fullPath, valueType);
         } catch (IOException e) {
             log.error("Error occurred when trying to get " + fullPath, e);
-            return new HashMap<>();
+            return null;
         }
+    }
+
+    @Override
+    public <T> Map<String, Object> findAll(String folder, Class<T> valueType) {
+        return new HashMap<>();
     }
 
     public String save(Object object) {
@@ -39,7 +45,7 @@ public class FilelizerSingle extends FilelizerBase {
 
     public List<String> saveAll(List<?> objects) {
         var name = getFilelizeNameOfList(objects);
-        Map<String, Object> objectsToUpdate = find(name.getClass());
+        Map<String, Object> objectsToUpdate = findAll(name, Map.class);
         for(Object object : objects) {
             var id = getFilelizeId(object);
             objectsToUpdate.put(id, object);
