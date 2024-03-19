@@ -34,18 +34,20 @@ public class FilelizerSingle extends FilelizerBase {
     }
 
     @Override
-    public <T> Map<String, Object> findAll(String folder, Class<T> valueType) {
+    public <T> Map<String, T> findAll(String folder, Class<T> valueType) {
         return new HashMap<>();
     }
 
-    public String save(Object object) {
+    public <T> String save(T object) {
+
+        //findAll(path, valueType);
         var saved = saveAll(List.of(object));
         return saved.stream().findFirst().orElse("");
     }
 
-    public List<String> saveAll(List<?> objects) {
+    public <T> List<String> saveAll(List<T> objects) {
         var name = getFilelizeNameOfList(objects);
-        Map<String, Object> objectsToUpdate = findAll(name, Map.class);
+        Map<String, Object> objectsToUpdate = findAll(name, Object.class);
         for(Object object : objects) {
             var id = getFilelizeId(object);
             objectsToUpdate.put(id, object);

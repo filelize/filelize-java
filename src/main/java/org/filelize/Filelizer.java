@@ -45,7 +45,7 @@ public class Filelizer implements IFilelizer{
     }
 
     @Override
-    public <T> Map<String, Object> findAll(String path, Class<T> valueType) {
+    public <T> Map<String, T> findAll(String path, Class<T> valueType) {
         var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
             return filelizerSingle.findAll(path, valueType);
@@ -69,7 +69,7 @@ public class Filelizer implements IFilelizer{
         return filelizerMultiple.save(filename, object);
     }
 
-    public List<String> saveAll(List<?> objects) {
+    public <T> List<String> saveAll(List<T> objects) {
         var filelizeType = getFilelizeTypeOfList(objects, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
             return filelizerSingle.saveAll(objects);

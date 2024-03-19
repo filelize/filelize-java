@@ -32,7 +32,7 @@ public class FilelizerMultiple extends FilelizerBase {
         }
     }
 
-    public <T> Map<String, Object> findAll(String folder, Class<T> valueType) {
+    public <T> Map<String, T> findAll(String folder, Class<T> valueType) {
         return new HashMap<>();
     }
 
@@ -42,7 +42,7 @@ public class FilelizerMultiple extends FilelizerBase {
         return filename;
     }
 
-    public List<String> saveAll(List<?> objects) {
+    public <T> List<String> saveAll(List<T> objects) {
         var filenames = new ArrayList<String>();
         for(var object : objects) {
             String filename = save(object);
