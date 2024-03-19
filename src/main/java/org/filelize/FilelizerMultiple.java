@@ -1,5 +1,6 @@
 package org.filelize;
 
+import org.filelize.file.FilesUtil;
 import org.filelize.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,8 @@ public class FilelizerMultiple extends FilelizerBase {
     }
 
     public <T> Map<String, T> findAll(String folder, Class<T> valueType) {
+        var filenames = FilesUtil.getFilenames(folder);
+
         return new HashMap<>();
     }
 

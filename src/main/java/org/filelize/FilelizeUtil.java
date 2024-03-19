@@ -16,7 +16,8 @@ public class FilelizeUtil {
     }
 
     public static String getFilelizeName(Object obj) {
-        var filelizeAnnotation = obj.getClass().getAnnotation(Filelize.class);
+        var clazz = getClazz(obj);
+        var filelizeAnnotation = clazz.getAnnotation(Filelize.class);
         if (filelizeAnnotation != null) {
             return filelizeAnnotation.name();
         } else {
