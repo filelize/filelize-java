@@ -5,8 +5,9 @@
 	<groupId>org.filelize</groupId>
 	<artifactId>filelize-java</artifactId>
 	<version>1.0.0</version>
+	<packaging>jar</packaging>
 	<name>filelize-java</name>
-	<description>When you just need a simple way to save some json data to a human-readable file</description>
+	<description>When you just need a simple way to save an object as json to a human-readable file</description>
 	<properties>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
