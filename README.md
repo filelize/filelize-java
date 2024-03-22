@@ -1,11 +1,12 @@
 # Filelize for java/kotlin
 
-When you just need a simple way to save an object as json to a human-readable file
+Filelize is a lightweight Java/Kotlin library designed to simplify the process of saving objects as JSON in human-readable files.
 
 ### Usange
 
-Add this to your pom.xml and follow the guide [Working with the Apache Maven registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry).
-Or just download this repo and build it locally. 
+To integrate Filelize into your project, you have two options:
+
+1. **Using Maven:** Add the following dependency to your pom.xml file and follow the guide for [Working with the Apache Maven registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
 ````xml
 <dependency>
   <groupId>org.filelize</groupId>
@@ -13,11 +14,10 @@ Or just download this repo and build it locally.
   <version>1.0.0</version>
 </dependency>
 ````
-
+2. **Manual Build:** Alternatively, you can download this repository and build it locally.
 
 ### Saving to a single file
-
-Add Filelize to your model file with FilelizeType.SINGLE_FILE. Add @Id on the identifying attribute. 
+To save an object to a single file, annotate your model class with `@Filelize` and set the `type` parameter to `FilelizeType.SINGLE_FILE`. Additionally, mark the identifying attribute with `@Id`. 
 ````java
 import org.filelize.Filelize;
 import org.filelize.Id;
@@ -32,9 +32,7 @@ public class Something {
 ````
 
 ### Saving to multiple files
-
-Add Filelize to your model file with FilelizeType.MULTIPLE_FILES. Add @Id on the identifying attribute.
-
+For saving objects to multiple files, follow the same steps as for single-file saving, but set the type parameter to `FilelizeType.MULTIPLE_FILES`.
 ````java
 import org.filelize.Filelize;
 import org.filelize.Id;
@@ -48,23 +46,25 @@ public class Something {
 }
 ````
 
-Find a file:
+### Find a file
 ````java
 var something = filelizer.find("id1", Something.class);
 ````
 
-Save a file:
-````java
-var id = filelizer.save(something);
-````
-
-SaveAll in one or multiple file(s):
-````java
-var ids = filelizer.saveAll(somethings);
-````
-
-FindAll:
+### FindAll:
 ````java
 var somethings = filelizer.findAll(Something.class);
 ````
 
+### Save a file
+````java
+var id = filelizer.save(something);
+````
+
+### SaveAll in one or multiple file(s):
+````java
+var ids = filelizer.saveAll(somethings);
+````
+
+## Contribute
+Contributions are welcomed! Feel free to create a pull request to contribute.
