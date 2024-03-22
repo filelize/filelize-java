@@ -1,5 +1,6 @@
 package org.filelize.json;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -28,6 +29,12 @@ public class JsonMapper {
     public <T> T readFile(String fullPath, Class<T> valueType) throws IOException {
         JsonNode json = objectMapper.readTree(Files.newBufferedReader(Paths.get(fullPath)));
         return objectMapper.treeToValue(json, valueType);
+    }
+
+    public <T> Map<String, T> readFileMap(String fullPath, Class<T> valueType) throws IOException {
+        JsonNode json = objectMapper.readTree(Files.newBufferedReader(Paths.get(fullPath)));
+        JavaType mapType = objectMapper.getTypeFactory().constructMapType(Map.class, String.class, valueType);
+        return objectMapper.readValue(json.traverse(), mapType);
     }
 
     public <T> Map<String, Object> readFiles(String folderPath, Class<T> valueType) throws IOException {

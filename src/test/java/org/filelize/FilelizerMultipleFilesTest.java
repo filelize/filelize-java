@@ -19,19 +19,19 @@ public class FilelizerMultipleFilesTest {
     @Test
     public void testSave() {
         var something = createSomethingMultiple("m1");
-        var filename = filelizer.save(something);
-        assertEquals("something_multiple_m1.json", filename);
+        var id = filelizer.save(something);
+        assertEquals("m1", id);
 
-        var response = filelizer.find(filename, SomethingMultiple.class);
+        var response = filelizer.find(id, SomethingMultiple.class);
         assertNotNull(response);
     }
 
     @Test
     public void testSaveAll() {
         var somethings = createSomethingMultipleList();
-        var filenames = filelizer.saveAll(somethings);
-        for (var filename : filenames) {
-            var response = filelizer.find(filename, SomethingMultiple.class);
+        var ids = filelizer.saveAll(somethings);
+        for (var id : ids) {
+            var response = filelizer.find(id, SomethingMultiple.class);
             assertNotNull(response);
         }
     }

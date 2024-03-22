@@ -1,6 +1,8 @@
 package org.filelize;
 
-public class SomethingElse {
+import java.io.Serializable;
+
+public class SomethingElse implements Serializable {
     private String id;
 
     private String value;

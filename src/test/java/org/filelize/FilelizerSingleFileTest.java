@@ -19,10 +19,10 @@ public class FilelizerSingleFileTest {
     @Test
     public void testSave() {
         var something = createSomethingSingle("s1");
-        var filename = filelizer.save(something);
-        assertEquals("something_single.json", filename);
+        var id = filelizer.save(something);
+        assertEquals("s1", id);
 
-        var response = filelizer.find(filename, SomethingSingle.class);
+        var response = filelizer.find(id, SomethingSingle.class);
         assertNotNull(response);
     }
 

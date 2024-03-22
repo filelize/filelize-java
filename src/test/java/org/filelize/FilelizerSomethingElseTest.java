@@ -19,21 +19,21 @@ public class FilelizerSomethingElseTest {
     @Test
     public void testSave() {
         var somethingElse = createSomethingElse("e1");
-        var filename = filelizer.save(somethingElse);
-        assertEquals("SomethingElse.json", filename);
+        var id = filelizer.save(somethingElse);
+        assertEquals("6af29fe8bfcb1792ce1c9c30be3a5bab", id);
 
-        var response = filelizer.find(filename, SomethingElse.class);
+        var response = filelizer.find(id, SomethingElse.class);
         assertNotNull(response);
     }
 
     @Test
     public void testSaveAll() {
         var somethings = createSomethingElseList();
-        List<String> filenames = filelizer.saveAll(somethings);
-        assertEquals("SomethingElse.json", filenames.get(0));
+        List<String> ids = filelizer.saveAll(somethings);
+        assertEquals("80645f39773892d49d2237be1bd5266a", ids.get(0));
 
         var folder = filelizer.getPath();
-        var response = filelizer.findAll(folder, SomethingElse.class);
+        var response = filelizer.findAll(SomethingElse.class);
         assertNotNull(response);
 
     }

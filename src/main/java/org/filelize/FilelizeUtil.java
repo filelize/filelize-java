@@ -1,6 +1,11 @@
 package org.filelize;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +59,7 @@ public class FilelizeUtil {
         if(!jsonFilenameList.isEmpty()) {
             return String.join("_", jsonFilenameList);
         }
-        return String.valueOf(object.hashCode());
+        return calculateMD5(object);
     }
 
     private static Class<?> getClazz(Object object) {
@@ -73,6 +78,29 @@ public class FilelizeUtil {
         try {
             return (String) field.get(object);
         } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String calculateMD5(Object obj) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            oos.close();
+            byte[] bytes = baos.toByteArray();
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(bytes);
+
+            StringBuilder result = new StringBuilder();
+            for (byte b : digest) {
+                result.append(String.format("%02x", b));
+            }
+            return result.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
