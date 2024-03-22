@@ -4,7 +4,8 @@ When you just need a simple way to save an object as json to a human-readable fi
 
 ### Usange
 
-Add this to your pom.xml
+Add this to your pom.xml and follow the guide [Working with the Apache Maven registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry).
+Or just download this repo and build it locally. 
 ````xml
 <dependency>
   <groupId>org.filelize</groupId>
