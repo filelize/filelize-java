@@ -15,9 +15,9 @@ Or just download this repo and build it locally.
 ````
 
 
-#### Saving to a single file
+### Saving to a single file
 
-Add Filelize to your model file with FilelizeType.SINGLE_FILE
+Add Filelize to your model file with FilelizeType.SINGLE_FILE. Add @Id on the identifying attribute. 
 ````java
 import org.filelize.Filelize;
 import org.filelize.Id;
@@ -31,9 +31,9 @@ public class Something {
 }
 ````
 
-#### Saving to multiple files
+### Saving to multiple files
 
-Add Filelize to your model file with FilelizeType.MULTIPLE_FILES
+Add Filelize to your model file with FilelizeType.MULTIPLE_FILES. Add @Id on the identifying attribute.
 
 ````java
 import org.filelize.Filelize;
@@ -58,7 +58,7 @@ Save a file:
 var id = filelizer.save(something);
 ````
 
-SaveAll in one file:
+SaveAll in one or multiple file(s):
 ````java
 var ids = filelizer.saveAll(somethings);
 ````
