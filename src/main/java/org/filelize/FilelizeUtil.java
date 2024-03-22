@@ -26,7 +26,7 @@ public class FilelizeUtil {
         if (filelizeAnnotation != null) {
             return filelizeAnnotation.name();
         } else {
-            return obj.getClass().getSimpleName();
+            return clazz.getSimpleName();
         }
     }
 
