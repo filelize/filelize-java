@@ -1,6 +1,6 @@
 # Filelize for java/kotlin
 
-Filelize is a lightweight Java/Kotlin library designed to simplify the process of saving objects as JSON in human-readable files.
+Filelize is a lightweight Java/Kotlin library designed to simplify the process of saving objects in human-readable files.
 
 One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files.
 
