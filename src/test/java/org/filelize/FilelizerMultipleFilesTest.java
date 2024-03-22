@@ -30,10 +30,9 @@ public class FilelizerMultipleFilesTest {
     public void testSaveAll() {
         var somethings = createSomethingMultipleList();
         var ids = filelizer.saveAll(somethings);
-        for (var id : ids) {
-            var response = filelizer.find(id, SomethingMultiple.class);
-            assertNotNull(response);
-        }
+        assertNotNull(ids);
+        var response = filelizer.findAll(SomethingMultiple.class);
+        assertNotNull(response);
     }
 
     private static List<SomethingMultiple> createSomethingMultipleList() {

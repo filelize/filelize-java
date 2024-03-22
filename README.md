@@ -1,6 +1,6 @@
 # Filelize for java/kotlin
 
-When you just need a simple way to save some json data to a human-readable file
+When you just need a simple way to save an object as json to a human-readable file
 
 ### Usange
 
@@ -9,17 +9,36 @@ Add this to your pom.xml
 <dependency>
   <groupId>org.filelize</groupId>
   <artifactId>filelize-java</artifactId>
-  <version>0.0.2</version>
+  <version>1.0.0</version>
 </dependency>
 ````
 
-Add JsonFilename to your model:
+
+#### Saving to a single file
+
+Add Filelize to your model file with FilelizeType.SINGLE_FILE
+````java
+import org.filelize.Filelize;
+import org.filelize.Id;
+
+@Filelize(name = "my_something", type = FilelizeType.SINGLE_FILE)
+public class Something {
+    @Id
+    private String id;
+    private String name;
+    ...
+}
+````
+
+#### Saving to multiple files
+
+Add Filelize to your model file with FilelizeType.MULTIPLE_FILES
 
 ````java
 import org.filelize.Filelize;
 import org.filelize.Id;
 
-@Filelize
+@Filelize(name = "my_something", type = FilelizeType.MULTIPLE_FILES)
 public class Something {
     @Id
     private String id;
@@ -30,21 +49,21 @@ public class Something {
 
 Find a file:
 ````java
-Something something = filelizer.find("something.json", Something.class);
+var something = filelizer.find("id1", Something.class);
 ````
 
 Save a file:
 ````java
-String filename = filelizer.save(something);
+var id = filelizer.save(something);
 ````
 
 SaveAll in one file:
 ````java
-String filename = filelizer.saveAll("somethings.json", somethings);
+var ids = filelizer.saveAll(somethings);
 ````
 
-SaveAll in multiple files:
+FindAll:
 ````java
-List<String> filenames = filelizer.saveAll(somethings);
+var somethings = filelizer.findAll(Something.class);
 ````
 

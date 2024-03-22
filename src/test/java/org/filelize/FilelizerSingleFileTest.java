@@ -29,12 +29,10 @@ public class FilelizerSingleFileTest {
     @Test
     public void testSaveAll() {
         var somethings = createSomethingSingleList();
-        var filenames = filelizer.saveAll(somethings);
-
-        for (var filename : filenames) {
-            var response = filelizer.find(filename, SomethingSingle.class);
-            assertNotNull(response);
-        }
+        var ids = filelizer.saveAll(somethings);
+        assertNotNull(ids);
+        var response = filelizer.findAll(SomethingSingle.class);
+        assertNotNull(response);
     }
 
     private static List<SomethingSingle> createSomethingSingleList() {

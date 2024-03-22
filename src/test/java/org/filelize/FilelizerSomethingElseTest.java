@@ -31,7 +31,6 @@ public class FilelizerSomethingElseTest {
         var somethings = createSomethingElseList();
         List<String> ids = filelizer.saveAll(somethings);
         assertNotNull(ids);
-
         var response = filelizer.findAll(SomethingElse.class);
         assertNotNull(response);
     }
