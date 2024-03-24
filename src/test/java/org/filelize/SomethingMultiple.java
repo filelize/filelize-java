@@ -1,6 +1,6 @@
 package org.filelize;
 
-@Filelize(name = "something_multiple", type = FilelizeType.MULTIPLE_FILES)
+@Filelize(name = "myfolder/something_multiple", type = FilelizeType.MULTIPLE_FILES)
 public class SomethingMultiple {
     @Id
     private String id;
