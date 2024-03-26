@@ -18,6 +18,14 @@ To integrate Filelize into your project, you have two options:
 ````
 2. **Manual Build:** Alternatively, you can download this repository and build it locally.
 
+### Lets get started
+
+Initialize a Filelizer with your preferred location of your files. (For subfolders you can add them directly on your domain object)
+
+````java
+Filelizer filelizer = new Filelizer("src/test/resources/");
+````
+
 ### Saving to a single file
 To save an object to a single file, annotate your model class with `@Filelize` and set the `type` parameter to `FilelizeType.SINGLE_FILE`. Additionally, mark the identifying attribute with `@Id`. 
 ````java
