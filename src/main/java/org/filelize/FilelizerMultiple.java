@@ -1,8 +1,8 @@
 package org.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.file.FilesUtil;
 import org.filelize.json.JsonMapper;
+import org.filelize.path.PathHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,21 +16,21 @@ import static org.filelize.FilelizeUtil.*;
 
 public class FilelizerMultiple implements IFilelizer {
     private final Logger log = LoggerFactory.getLogger(FilelizerMultiple.class);
-    private final String path;
+    private final PathHandler pathHandler;
     private final JsonMapper jsonMapper;
 
-    public FilelizerMultiple(String path) {
-        this.path = path;
+    public FilelizerMultiple(String basePath) {
+        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES);
         this.jsonMapper = new JsonMapper(new ObjectMapper());
     }
 
-    public FilelizerMultiple(String path, JsonMapper jsonMapper) {
-        this.path = path;
+    public FilelizerMultiple(String basePath, JsonMapper jsonMapper) {
+        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES);
         this.jsonMapper = jsonMapper;
     }
 
     public <T> T find(String id, Class<T> valueType) {
-        var fullPath = getFullPath(id, valueType);
+        var fullPath = pathHandler.getFullPath(id, valueType);
         try {
             return jsonMapper.readFile(fullPath, valueType);
         } catch (IOException e) {
@@ -40,7 +40,7 @@ public class FilelizerMultiple implements IFilelizer {
     }
 
     public <T> Map<String, T> findAll(Class<T> valueType) {
-        var filenames = FilesUtil.getFilenames(path);
+        var filenames = pathHandler.getFilenames(valueType);
         var objects = new HashMap<String, T>();
         for(var filename : filenames) {
             var name = FilelizeUtil.getFilelizeName(valueType);
@@ -53,7 +53,7 @@ public class FilelizerMultiple implements IFilelizer {
 
     public String save(Object object) {
         try {
-            var fullPath = getFullPath(object);
+            var fullPath = pathHandler.getFullPath(object);
             jsonMapper.writeFile(fullPath, object);
             return getFilelizeId(object);
         } catch (IOException e) {
@@ -68,27 +68,5 @@ public class FilelizerMultiple implements IFilelizer {
             filenames.add(filename);
         }
         return filenames;
-    }
-
-    private <T> String getFullPath(String id, Class<T> valueType) {
-        var name = getFilelizeName(valueType);
-        return path + "/" + getFilename(id, name);
-    }
-
-    private String getFullPath(Object object) {
-        var filename = getFilename(object);
-        return path + "/" + filename;
-    }
-    public String getFilename(Object obj) {
-        var name = getFilelizeName(obj);
-        var id = getFilelizeId(obj);
-        return getFilename(id, name);
-    }
-
-    private static String getFilename(String id, String name) {
-        if(id == null) {
-            return name + ".json";
-        }
-        return name + "_" + id + ".json";
     }
 }

@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface Filelize {
     String name();
     FilelizeType type();
+    String directory() default "";
 }

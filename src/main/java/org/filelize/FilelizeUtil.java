@@ -13,8 +13,8 @@ import java.util.Map;
 public class FilelizeUtil {
 
 
-    public static String getFilelizeNameOfList(List<?> objects) {
-        var filelizeNameOptional = objects.stream()
+    public static <T> String getFilelizeNameOfList(Map<String, T> objects) {
+        var filelizeNameOptional = objects.values().stream()
                 .map(FilelizeUtil::getFilelizeName)
                 .findFirst();
         return filelizeNameOptional.orElse("");
@@ -62,6 +62,16 @@ public class FilelizeUtil {
         return calculateMD5(object);
     }
 
+    public static String getFilelizeDirectory(Object obj) {
+        var clazz = getClazz(obj);
+        var filelizeAnnotation = clazz.getAnnotation(Filelize.class);
+        if (filelizeAnnotation != null) {
+            return filelizeAnnotation.directory();
+        } else {
+            return "";
+        }
+    }
+
     private static Class<?> getClazz(Object object) {
         if (object instanceof Class<?>) {
             return (Class<?>) object;
@@ -82,7 +92,7 @@ public class FilelizeUtil {
         }
     }
 
-    public static String calculateMD5(Object obj) {
+    private static String calculateMD5(Object obj) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);

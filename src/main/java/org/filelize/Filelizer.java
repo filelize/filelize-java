@@ -15,29 +15,23 @@ public class Filelizer implements IFilelizer{
 
     private final Logger log = LoggerFactory.getLogger(Filelizer.class);
 
-    private final String path;
-    private FilelizerSingle filelizerSingle;
-    private FilelizerMultiple filelizerMultiple;
+    private final FilelizerSingle filelizerSingle;
+    private final FilelizerMultiple filelizerMultiple;
 
     private final FilelizeType defaultFilelizeType;
 
-    public Filelizer(String path) {
-        this.path = path;
-        var objectMapper = new ObjectMapper();
-        this.filelizerSingle = new FilelizerSingle(path, new JsonMapper(objectMapper));
-        this.filelizerMultiple = new FilelizerMultiple(path, new JsonMapper(objectMapper));
+    public Filelizer(String basePath) {
+        var jsonMapper = new JsonMapper(new ObjectMapper());
+        this.filelizerSingle = new FilelizerSingle(basePath, jsonMapper);
+        this.filelizerMultiple = new FilelizerMultiple(basePath, jsonMapper);
         this.defaultFilelizeType = FilelizeType.SINGLE_FILE;
     }
 
-    public Filelizer(String path, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
-        this.path = path;
-        this.filelizerSingle = new FilelizerSingle(path, new JsonMapper(objectMapper));
-        this.filelizerMultiple = new FilelizerMultiple(path, new JsonMapper(objectMapper));
+    public Filelizer(String basePath, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
+        var jsonMapper = new JsonMapper(new ObjectMapper());
+        this.filelizerSingle = new FilelizerSingle(basePath, jsonMapper);
+        this.filelizerMultiple = new FilelizerMultiple(basePath, jsonMapper);
         this.defaultFilelizeType = defaultFilelizeType;
-    }
-
-    public String getPath() {
-        return path;
     }
 
     public <T> T find(String id, Class<T> valueType) {
