@@ -20,7 +20,7 @@ To integrate Filelize into your project, you have two options:
 
 ## Lets get started
 
-Initialize a Filelizer with your preferred location of your files. (For subfolders you can add them directly on your domain object)
+Initialize a Filelizer with your preferred location of your files. (For subdirectories you can add them directly on your domain object)
 
 ````java
 Filelizer filelizer = new Filelizer("src/test/resources/");
@@ -32,7 +32,7 @@ To save an object to a single file, annotate your model class with `@Filelize` a
 import org.filelize.Filelize;
 import org.filelize.Id;
 
-@Filelize(name = "my_something", type = FilelizeType.SINGLE_FILE)
+@Filelize(name = "something_single", type = FilelizeType.SINGLE_FILE, directory = "something_single")
 public class Something {
     @Id
     private String id;
@@ -47,7 +47,7 @@ For saving objects to multiple files, follow the same steps as for single-file s
 import org.filelize.Filelize;
 import org.filelize.Id;
 
-@Filelize(name = "my_something", type = FilelizeType.MULTIPLE_FILES)
+@Filelize(name = "my_something", type = FilelizeType.MULTIPLE_FILES, directory = "something_multiple/myFolder")
 public class Something {
     @Id
     private String id;
