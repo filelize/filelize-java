@@ -18,7 +18,7 @@ To integrate Filelize into your project, you have two options:
 ````
 2. **Manual Build:** Alternatively, you can download this repository and build it locally.
 
-### Lets get started
+## Lets get started
 
 Initialize a Filelizer with your preferred location of your files. (For subfolders you can add them directly on your domain object)
 
