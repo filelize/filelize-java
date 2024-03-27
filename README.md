@@ -1,4 +1,5 @@
 # Filelize for java/kotlin
+![Filelize build status](https://github.com/filelize/filelize-java/actions/workflows/maven.yml/badge.svg)
 
 Filelize is a lightweight Java/Kotlin library designed to simplify the process of saving objects in human-readable files.
 
