@@ -40,13 +40,11 @@ public class FilelizerMultiple implements IFilelizer {
     }
 
     public <T> Map<String, T> findAll(Class<T> valueType) {
-        var filenames = pathHandler.getFilenames(valueType);
+        var fullPaths = pathHandler.getFullPaths(valueType);
         var objects = new HashMap<String, T>();
-        for(var filename : filenames) {
-            var name = FilelizeUtil.getFilelizeName(valueType);
-            var id = filename.replace(name+"_", "").replace(".json", "");
-            var object = find(id, valueType);
-            objects.put(id, object);
+        for(var entrySet : fullPaths.entrySet()) {
+            var object = readFile(entrySet.getValue(), valueType);
+            objects.put(entrySet.getKey(), object);
         }
         return objects;
     }
@@ -68,5 +66,14 @@ public class FilelizerMultiple implements IFilelizer {
             filenames.add(filename);
         }
         return filenames;
+    }
+
+    private <T> T readFile(String fullPath, Class<T> valueType) {
+        try {
+            return jsonMapper.readFile(fullPath, valueType);
+        } catch (IOException e) {
+            log.error("Error occurred when trying to get " + fullPath, e);
+            return null;
+        }
     }
 }

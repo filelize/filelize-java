@@ -13,7 +13,7 @@ public class FilelizerSingleFileTest {
     private final Filelizer filelizer;
 
     public FilelizerSingleFileTest() {
-        filelizer = new Filelizer("src/test/resources/");
+        filelizer = new Filelizer("src/test/resources");
     }
 
     @Test
