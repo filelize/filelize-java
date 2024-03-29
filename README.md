@@ -48,7 +48,7 @@ For saving objects to multiple files, follow the same steps as for single-file s
 import org.filelize.Filelize;
 import org.filelize.Id;
 
-@Filelize(name = "my_something", type = FilelizeType.MULTIPLE_FILES, directory = "something_multiple/myFolder")
+@Filelize(name = "my_something", type = FilelizeType.MULTIPLE_FILES, directory = "something_multiple/mydirectory")
 public class Something {
     @Id
     private String id;

@@ -22,13 +22,13 @@ public class PathHandlerMultipleTest {
         var something = new SomethingMultiple();
         something.setId("myId1");
         var fullPath = pathHandler.getFullPath(something);
-        assertEquals("src/test/resources/something_multiple/myFolder/something_multiple_myId1.json", fullPath);
+        assertEquals("src/test/resources/something_multiple/mydirectory/something_multiple_myId1.json", fullPath);
     }
 
     @Test
     public void testGetFullPathWithId() {
         var fullPath = pathHandler.getFullPath("myId1", SomethingMultiple.class);
-        assertEquals("src/test/resources/something_multiple/myFolder/something_multiple_myId1.json", fullPath);
+        assertEquals("src/test/resources/something_multiple/mydirectory/something_multiple_myId1.json", fullPath);
     }
 
     @Test
@@ -37,13 +37,13 @@ public class PathHandlerMultipleTest {
         objects.put("id1", new SomethingMultiple());
         objects.put("id2", new SomethingMultiple());
         var fullPath = pathHandler.getFullPathOfMap(objects);
-        assertEquals("src/test/resources/something_multiple/myFolder/something_multiple.json", fullPath);
+        assertEquals("src/test/resources/something_multiple/mydirectory/something_multiple.json", fullPath);
     }
 
     @Test
-    public void testGetFullPats() {
+    public void testGetFullPaths() {
         var fullPaths = pathHandler.getFullPaths(SomethingMultiple.class);
-        assertEquals("src/test/resources/something_multiple/myFolder/something_multiple_m1.json", fullPaths.values().stream().findFirst().orElse(null));
+        assertEquals("src/test/resources/something_multiple/mydirectory/something_multiple_m1.json", fullPaths.values().stream().findFirst().orElse(null));
     }
 
 }

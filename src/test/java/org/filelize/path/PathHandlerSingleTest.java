@@ -39,7 +39,7 @@ public class PathHandlerSingleTest {
     }
 
     @Test
-    public void testGetFullPats() {
+    public void testGetFullPaths() {
         var fullPaths = pathHandler.getFullPaths(SomethingSingle.class);
         assertEquals("src/test/resources/something_single/something_single.json", fullPaths.values().stream().findFirst().orElse(null));
     }
