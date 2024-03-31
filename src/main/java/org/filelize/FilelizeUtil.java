@@ -1,8 +1,8 @@
 package org.filelize;
 
-import java.io.ByteArrayOutputStream;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -47,7 +47,7 @@ public class FilelizeUtil {
         }
     }
 
-    public static String getFilelizeId(Object object) {
+    public static String getFilelizeId(ObjectMapper objectMapper, Object object) {
         Class<?> clazz = getClazz(object);
         List<String> jsonFilenameList = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
@@ -59,7 +59,7 @@ public class FilelizeUtil {
         if(!jsonFilenameList.isEmpty()) {
             return String.join("_", jsonFilenameList);
         }
-        return calculateMD5(object);
+        return calculateMD5(objectMapper, object);
     }
 
     public static String getFilelizeDirectory(Object obj) {
@@ -92,13 +92,11 @@ public class FilelizeUtil {
         }
     }
 
-    private static String calculateMD5(Object obj) {
+    private static String calculateMD5(ObjectMapper objectMapper, Object obj) {
         try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(obj);
-            oos.close();
-            byte[] bytes = baos.toByteArray();
+            String jsonString = objectMapper.writeValueAsString(obj);
+
+            byte[] bytes = jsonString.getBytes();
 
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] digest = md.digest(bytes);
@@ -114,4 +112,5 @@ public class FilelizeUtil {
             throw new RuntimeException(e);
         }
     }
+
 }

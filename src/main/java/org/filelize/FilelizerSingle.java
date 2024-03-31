@@ -1,7 +1,7 @@
 package org.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.json.JsonMapper;
+import org.filelize.file.FileHandler;
 import org.filelize.path.PathHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,18 +14,20 @@ import static org.filelize.FilelizeUtil.*;
 
 public class FilelizerSingle implements IFilelizer  {
     private final Logger log = LoggerFactory.getLogger(FilelizerSingle.class);
-
+    private final ObjectMapper objectMapper;
     private final PathHandler pathHandler;
-    private final JsonMapper jsonMapper;
+    private final FileHandler fileHandler;
 
     public FilelizerSingle(String basePath) {
-        this.pathHandler = new PathHandler(basePath, FilelizeType.SINGLE_FILE);
-        this.jsonMapper = new JsonMapper(new ObjectMapper());
+        this.objectMapper = new ObjectMapper();
+        this.pathHandler = new PathHandler(basePath, FilelizeType.SINGLE_FILE, objectMapper);
+        this.fileHandler = new FileHandler(objectMapper);
     }
 
-    public FilelizerSingle(String basePath, JsonMapper jsonMapper) {
-        this.pathHandler = new PathHandler(basePath, FilelizeType.SINGLE_FILE);
-        this.jsonMapper = jsonMapper;
+    public FilelizerSingle(String basePath, ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+        this.pathHandler = new PathHandler(basePath, FilelizeType.SINGLE_FILE, objectMapper);
+        this.fileHandler = new FileHandler(objectMapper);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class FilelizerSingle implements IFilelizer  {
     public <T> Map<String, T> findAll(Class<T> valueType) {
         var fullPath = pathHandler.getFullPath(valueType);
         try {
-            return jsonMapper.readFileMap(fullPath, valueType);
+            return fileHandler.readFileMap(fullPath, valueType);
         } catch (NoSuchFileException e) {
             return new HashMap<>();
         } catch (IOException e) {
@@ -56,7 +58,7 @@ public class FilelizerSingle implements IFilelizer  {
     public <T> List<String> saveAll(List<T> objects) {
         Map<String, T> objectsToUpdate = findAll((Class<T>) objects.get(0).getClass());
         for(T object : objects) {
-            var id = getFilelizeId(object);
+            var id = getFilelizeId(objectMapper, object);
             objectsToUpdate.put(id, object);
         }
         var ids = save2(objectsToUpdate);
@@ -66,7 +68,7 @@ public class FilelizerSingle implements IFilelizer  {
     public <T> List<String> save2(Map<String, T> objects) {
         try {
             var fullPath = pathHandler.getFullPathOfMap(objects);
-            jsonMapper.writeFile(fullPath, objects);
+            fileHandler.writeFile(fullPath, objects);
             return new ArrayList<>(objects.keySet());
         } catch (IOException e) {
             throw new RuntimeException("Error occurred when trying to open or create a file for writing",e);

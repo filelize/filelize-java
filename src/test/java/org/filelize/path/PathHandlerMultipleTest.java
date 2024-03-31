@@ -1,5 +1,6 @@
 package org.filelize.path;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.filelize.FilelizeType;
 import org.filelize.SomethingMultiple;
 import org.junit.Test;
@@ -14,7 +15,7 @@ public class PathHandlerMultipleTest {
     private final PathHandler pathHandler;
 
     public PathHandlerMultipleTest() {
-        this.pathHandler = new PathHandler("src/test/resources", FilelizeType.MULTIPLE_FILES);
+        this.pathHandler = new PathHandler("src/test/resources", FilelizeType.MULTIPLE_FILES, new ObjectMapper());
     }
 
     @Test

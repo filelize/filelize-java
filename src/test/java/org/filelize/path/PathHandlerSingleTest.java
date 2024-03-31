@@ -1,5 +1,6 @@
 package org.filelize.path;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.filelize.FilelizeType;
 import org.filelize.SomethingSingle;
 import org.junit.Test;
@@ -14,7 +15,7 @@ public class PathHandlerSingleTest {
     private final PathHandler pathHandler;
 
     public PathHandlerSingleTest() {
-        this.pathHandler = new PathHandler("src/test/resources", FilelizeType.SINGLE_FILE);
+        this.pathHandler = new PathHandler("src/test/resources", FilelizeType.SINGLE_FILE, new ObjectMapper());
     }
 
     @Test

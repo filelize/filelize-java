@@ -1,7 +1,7 @@
 package org.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.json.JsonMapper;
+import org.filelize.file.FileHandler;
 import org.filelize.path.PathHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,23 +16,26 @@ import static org.filelize.FilelizeUtil.*;
 
 public class FilelizerMultiple implements IFilelizer {
     private final Logger log = LoggerFactory.getLogger(FilelizerMultiple.class);
+    private final ObjectMapper objectMapper;
     private final PathHandler pathHandler;
-    private final JsonMapper jsonMapper;
+    private final FileHandler fileHandler;
 
     public FilelizerMultiple(String basePath) {
-        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES);
-        this.jsonMapper = new JsonMapper(new ObjectMapper());
+        this.objectMapper = new ObjectMapper();
+        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES, objectMapper);
+        this.fileHandler = new FileHandler(objectMapper);
     }
 
-    public FilelizerMultiple(String basePath, JsonMapper jsonMapper) {
-        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES);
-        this.jsonMapper = jsonMapper;
+    public FilelizerMultiple(String basePath, ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES, objectMapper);
+        this.fileHandler = new FileHandler(objectMapper);
     }
 
     public <T> T find(String id, Class<T> valueType) {
         var fullPath = pathHandler.getFullPath(id, valueType);
         try {
-            return jsonMapper.readFile(fullPath, valueType);
+            return fileHandler.readFile(fullPath, valueType);
         } catch (IOException e) {
             log.error("Error occurred when trying to get " + fullPath, e);
             return null;
@@ -52,8 +55,8 @@ public class FilelizerMultiple implements IFilelizer {
     public String save(Object object) {
         try {
             var fullPath = pathHandler.getFullPath(object);
-            jsonMapper.writeFile(fullPath, object);
-            return getFilelizeId(object);
+            fileHandler.writeFile(fullPath, object);
+            return getFilelizeId(objectMapper, object);
         } catch (IOException e) {
             throw new RuntimeException("Error occurred when trying to open or create a file for writing",e);
         }
@@ -70,7 +73,7 @@ public class FilelizerMultiple implements IFilelizer {
 
     private <T> T readFile(String fullPath, Class<T> valueType) {
         try {
-            return jsonMapper.readFile(fullPath, valueType);
+            return fileHandler.readFile(fullPath, valueType);
         } catch (IOException e) {
             log.error("Error occurred when trying to get " + fullPath, e);
             return null;

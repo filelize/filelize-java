@@ -20,7 +20,7 @@ public class FilelizerSomethingElseTest {
     public void testSave() {
         var somethingElse = createSomethingElse("e1");
         var id = filelizer.save(somethingElse);
-        assertEquals("6af29fe8bfcb1792ce1c9c30be3a5bab", id);
+        assertEquals("bee4423bd917c50eb9c6f24cd08e9d07", id);
 
         var response = filelizer.find(id, SomethingElse.class);
         assertNotNull(response);

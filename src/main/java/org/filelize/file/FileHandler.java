@@ -1,4 +1,4 @@
-package org.filelize.json;
+package org.filelize.file;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,13 +16,13 @@ import java.util.Map;
 import static org.filelize.FilelizeUtil.getFilelizeId;
 import static org.filelize.file.FilesUtil.ensureFile;
 
-public class JsonMapper {
+public class FileHandler {
 
-    private final Logger log = LoggerFactory.getLogger(JsonMapper.class);
+    private final Logger log = LoggerFactory.getLogger(FileHandler.class);
 
     private final ObjectMapper objectMapper;
 
-    public JsonMapper(ObjectMapper objectMapper) {
+    public FileHandler(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
@@ -45,7 +45,7 @@ public class JsonMapper {
             for (File file : files) {
                 if (file.isFile()) {
                     T file1 = readFile(file.getPath(), valueType);
-                    String id = getFilelizeId(file1);
+                    String id = getFilelizeId(objectMapper, file1);
                     content.put(id, file1);
                 }
             }

@@ -1,5 +1,6 @@
 package org.filelize.path;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.filelize.FilelizeType;
 import org.filelize.FilelizeUtil;
 import org.filelize.file.FilesUtil;
@@ -13,10 +14,12 @@ public class PathHandler {
 
     private final String basePath;
     private final FilelizeType filelizeType;
+    private final ObjectMapper objectMapper;
 
-    public PathHandler(String basePath, FilelizeType filelizeType) {
+    public PathHandler(String basePath, FilelizeType filelizeType, ObjectMapper objectMapper) {
         this.basePath = basePath;
         this.filelizeType = filelizeType;
+        this.objectMapper = objectMapper;
     }
 
     public String getFullPath(Object object) {
@@ -52,7 +55,7 @@ public class PathHandler {
     private String getFilename(Object obj) {
         if(filelizeType == FilelizeType.MULTIPLE_FILES) {
             var name = getFilelizeName(obj);
-            var id = getFilelizeId(obj);
+            var id = getFilelizeId(objectMapper, obj);
             return getFilename(id, name);
         } else {
             var name = getFilelizeName(obj);

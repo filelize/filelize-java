@@ -1,7 +1,6 @@
 package org.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,16 +20,14 @@ public class Filelizer implements IFilelizer{
     private final FilelizeType defaultFilelizeType;
 
     public Filelizer(String basePath) {
-        var jsonMapper = new JsonMapper(new ObjectMapper());
-        this.filelizerSingle = new FilelizerSingle(basePath, jsonMapper);
-        this.filelizerMultiple = new FilelizerMultiple(basePath, jsonMapper);
+        this.filelizerSingle = new FilelizerSingle(basePath);
+        this.filelizerMultiple = new FilelizerMultiple(basePath);
         this.defaultFilelizeType = FilelizeType.SINGLE_FILE;
     }
 
     public Filelizer(String basePath, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
-        var jsonMapper = new JsonMapper(new ObjectMapper());
-        this.filelizerSingle = new FilelizerSingle(basePath, jsonMapper);
-        this.filelizerMultiple = new FilelizerMultiple(basePath, jsonMapper);
+        this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
+        this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
         this.defaultFilelizeType = defaultFilelizeType;
     }
 
