@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.filelize</groupId>
 	<artifactId>filelize-java</artifactId>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<packaging>jar</packaging>
 	<name>filelize-java</name>
 	<description>When you just need a simple way to save an object as json to a human-readable file</description>
@@ -61,9 +61,9 @@
 	</build>
 	<distributionManagement>
 		<repository>
-			<id>github</id>
-			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/filelize/filelize-java</url>
-		</repository>
+			<id>ossrh</id>
+			<name>Central Repository OSSRH</name>
+	      		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	    	</repository>
 	</distributionManagement>
 </project>
