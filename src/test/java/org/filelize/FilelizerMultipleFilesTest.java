@@ -7,6 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class FilelizerMultipleFilesTest {
 
@@ -33,6 +34,17 @@ public class FilelizerMultipleFilesTest {
         assertNotNull(ids);
         var response = filelizer.findAll(SomethingMultiple.class);
         assertNotNull(response);
+    }
+
+    @Test
+    public void testDelete() {
+        var something = createSomethingMultiple("should_be_deleted");
+        var id = filelizer.save(something);
+        assertEquals("should_be_deleted", id);
+
+        filelizer.delete(id, SomethingMultiple.class);
+        var response = filelizer.find(id, SomethingMultiple.class);
+        assertNull(response);
     }
 
     private static List<SomethingMultiple> createSomethingMultipleList() {

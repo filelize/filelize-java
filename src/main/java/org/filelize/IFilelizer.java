@@ -8,4 +8,5 @@ public interface IFilelizer {
     <T> Map<String, T> findAll(Class<T> valueType);
     <T> String save(T object);
     <T> List<String> saveAll(List<T> objects);
+    <T> void delete(String id, Class<T> valueType);
 }

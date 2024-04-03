@@ -51,8 +51,11 @@ public class FilelizerSingle implements IFilelizer  {
     }
 
     public <T> String save(T object) {
-        var ids = saveAll(List.of(object));
-        return ids.stream().findFirst().orElse("");
+        Map<String, T> objectsToUpdate = findAll((Class<T>) object.getClass());
+        var id = getFilelizeId(objectMapper, object);
+        objectsToUpdate.put(id, object);
+        save2(objectsToUpdate);
+        return id;
     }
 
     public <T> List<String> saveAll(List<T> objects) {
@@ -63,6 +66,13 @@ public class FilelizerSingle implements IFilelizer  {
         }
         var ids = save2(objectsToUpdate);
         return ids;
+    }
+
+    @Override
+    public <T> void delete(String id, Class<T> valueType) {
+        Map<String, T> all = findAll(valueType);
+        all.remove(id);
+        save2(all);
     }
 
     public <T> List<String> save2(Map<String, T> objects) {

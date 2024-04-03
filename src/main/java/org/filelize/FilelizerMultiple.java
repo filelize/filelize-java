@@ -71,6 +71,16 @@ public class FilelizerMultiple implements IFilelizer {
         return filenames;
     }
 
+    @Override
+    public <T> void delete(String id, Class<T> valueType) {
+        var fullPath = pathHandler.getFullPath(id, valueType);
+        try {
+            fileHandler.delete(fullPath);
+        } catch (IOException e) {
+            log.error("Error occurred when trying to delete " + fullPath, e);
+        }
+    }
+
     private <T> T readFile(String fullPath, Class<T> valueType) {
         try {
             return fileHandler.readFile(fullPath, valueType);

@@ -10,7 +10,7 @@ import java.util.Map;
 import static org.filelize.FilelizeUtil.getFilelizeType;
 import static org.filelize.FilelizeUtil.getFilelizeTypeOfList;
 
-public class Filelizer implements IFilelizer{
+public class Filelizer implements IFilelizer {
 
     private final Logger log = LoggerFactory.getLogger(Filelizer.class);
 
@@ -70,5 +70,15 @@ public class Filelizer implements IFilelizer{
             return filelizerSingle.saveAll(objects);
         }
         return filelizerMultiple.saveAll(objects);
+    }
+
+    @Override
+    public <T> void delete(String id, Class<T> valueType) {
+        var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
+        if(filelizeType == FilelizeType.SINGLE_FILE) {
+            filelizerSingle.delete(id, valueType);
+        } else {
+            filelizerMultiple.delete(id, valueType);
+        }
     }
 }

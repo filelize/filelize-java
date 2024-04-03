@@ -7,6 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class FilelizerSingleFileTest {
 
@@ -33,6 +34,16 @@ public class FilelizerSingleFileTest {
         assertNotNull(ids);
         var response = filelizer.findAll(SomethingSingle.class);
         assertNotNull(response);
+    }
+    @Test
+    public void testDelete() {
+        var something = createSomethingSingle("should_be_deleted");
+        var id = filelizer.save(something);
+        assertEquals("should_be_deleted", id);
+
+        filelizer.delete(id, SomethingSingle.class);
+        var response = filelizer.find(id, SomethingSingle.class);
+        assertNull(response);
     }
 
     private static List<SomethingSingle> createSomethingSingleList() {
