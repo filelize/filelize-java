@@ -6,8 +6,33 @@
 	<artifactId>filelize-java</artifactId>
 	<version>2.0.0</version>
 	<packaging>jar</packaging>
+
 	<name>filelize-java</name>
-	<description>When you just need a simple way to save an object as json to a human-readable file</description>
+	<description>When you just need a simple way to save an object to a human-readable file</description>
+	<url>https://github.com/filelize/filelize-java</url>
+
+	<developers>
+		<developer>
+			<name>Jan-Terje Sørensen</name>
+			<email>jtbsorensen@gmail.com</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/filelize/filelize-java</url>
+		<connection>scm:git:https://github.com/filelize/filelize-java.git</connection>
+		<developerConnection>scm:git:https://github.com/filelize/filelize-java.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
 	<properties>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
