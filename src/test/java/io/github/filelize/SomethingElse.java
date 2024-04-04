@@ -1,4 +1,4 @@
-package org.filelize;
+package io.github.filelize;
 
 public class SomethingElse {
     private String id;

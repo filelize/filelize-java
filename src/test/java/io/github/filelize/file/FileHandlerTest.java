@@ -1,7 +1,7 @@
-package org.filelize.file;
+package io.github.filelize.file;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.SomethingElse;
+import io.github.filelize.SomethingElse;
 import org.junit.Test;
 
 import java.io.IOException;

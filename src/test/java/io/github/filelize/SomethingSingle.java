@@ -1,4 +1,4 @@
-package org.filelize;
+package io.github.filelize;
 
 @Filelize(name = "something_single", type = FilelizeType.SINGLE_FILE, directory = "something_single")
 public class SomethingSingle {

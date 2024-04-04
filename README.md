@@ -12,9 +12,9 @@ To integrate Filelize into your project, you have two options:
 1. **Using Maven:** Add the following dependency to your pom.xml file and follow the guide for [Working with the Apache Maven registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
 ````xml
 <dependency>
-  <groupId>org.filelize</groupId>
+  <groupId>io.github.filelize</groupId>
   <artifactId>filelize-java</artifactId>
-  <version>1.0.0</version>
+  <version>0.9.0</version>
 </dependency>
 ````
 2. **Manual Build:** Alternatively, you can download this repository and build it locally.
@@ -28,10 +28,11 @@ Filelizer filelizer = new Filelizer("src/test/resources/");
 ````
 
 ### Saving to a single file
-To save an object to a single file, annotate your model class with `@Filelize` and set the `type` parameter to `FilelizeType.SINGLE_FILE`. Additionally, mark the identifying attribute with `@Id`. 
+To save an object to a single file, annotate your model class with `@Filelize` and set the `type` parameter to `FilelizeType.SINGLE_FILE`. Additionally, mark the identifying attribute with `@Id`.
+
 ````java
-import org.filelize.Filelize;
-import org.filelize.Id;
+import io.github.filelize.Filelize;
+import io.github.filelize.Id;
 
 @Filelize(name = "something_single", type = FilelizeType.SINGLE_FILE, directory = "something_single")
 public class Something {
@@ -44,9 +45,10 @@ public class Something {
 
 ### Saving to multiple files
 For saving objects to multiple files, follow the same steps as for single-file saving, but set the type parameter to `FilelizeType.MULTIPLE_FILES`.
+
 ````java
-import org.filelize.Filelize;
-import org.filelize.Id;
+import io.github.filelize.Filelize;
+import io.github.filelize.Id;
 
 @Filelize(name = "my_something", type = FilelizeType.MULTIPLE_FILES, directory = "something_multiple/mydirectory")
 public class Something {

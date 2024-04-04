@@ -1,4 +1,4 @@
-package org.filelize;
+package io.github.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 
-import static org.filelize.FilelizeUtil.getFilelizeType;
-import static org.filelize.FilelizeUtil.getFilelizeTypeOfList;
+import static io.github.filelize.FilelizeUtil.getFilelizeType;
+import static io.github.filelize.FilelizeUtil.getFilelizeTypeOfList;
 
 public class Filelizer implements IFilelizer {
 

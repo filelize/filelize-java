@@ -1,4 +1,4 @@
-package org.filelize.file;
+package io.github.filelize.file;
 
 import java.io.File;
 import java.io.IOException;

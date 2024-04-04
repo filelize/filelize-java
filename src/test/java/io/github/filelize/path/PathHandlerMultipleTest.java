@@ -1,8 +1,8 @@
-package org.filelize.path;
+package io.github.filelize.path;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.FilelizeType;
-import org.filelize.SomethingMultiple;
+import io.github.filelize.FilelizeType;
+import io.github.filelize.SomethingMultiple;
 import org.junit.Test;
 
 import java.util.HashMap;

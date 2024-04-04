@@ -1,4 +1,4 @@
-package org.filelize;
+package io.github.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

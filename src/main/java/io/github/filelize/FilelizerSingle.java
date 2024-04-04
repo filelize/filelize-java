@@ -1,8 +1,8 @@
-package org.filelize;
+package io.github.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.file.FileHandler;
-import org.filelize.path.PathHandler;
+import io.github.filelize.file.FileHandler;
+import io.github.filelize.path.PathHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.*;
 
-import static org.filelize.FilelizeUtil.*;
+import static io.github.filelize.FilelizeUtil.*;
 
 public class FilelizerSingle implements IFilelizer  {
     private final Logger log = LoggerFactory.getLogger(FilelizerSingle.class);

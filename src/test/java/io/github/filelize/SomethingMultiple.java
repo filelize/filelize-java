@@ -1,4 +1,4 @@
-package org.filelize;
+package io.github.filelize;
 
 @Filelize(name = "something_multiple", type = FilelizeType.MULTIPLE_FILES, directory = "something_multiple/mydirectory")
 public class SomethingMultiple {

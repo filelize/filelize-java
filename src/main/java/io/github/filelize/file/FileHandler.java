@@ -1,4 +1,4 @@
-package org.filelize.file;
+package io.github.filelize.file;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,8 +16,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.filelize.FilelizeUtil.getFilelizeId;
-import static org.filelize.file.FilesUtil.ensureFile;
+import static io.github.filelize.FilelizeUtil.getFilelizeId;
+import static io.github.filelize.file.FilesUtil.ensureFile;
 
 public class FileHandler {
 

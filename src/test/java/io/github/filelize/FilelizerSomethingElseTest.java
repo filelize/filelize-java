@@ -1,4 +1,4 @@
-package org.filelize;
+package io.github.filelize;
 
 import org.junit.Test;
 

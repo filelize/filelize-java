@@ -1,4 +1,4 @@
-package org.filelize;
+package io.github.filelize;
 
 import java.util.List;
 import java.util.Map;

@@ -1,14 +1,14 @@
-package org.filelize.path;
+package io.github.filelize.path;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.filelize.FilelizeType;
-import org.filelize.FilelizeUtil;
-import org.filelize.file.FilesUtil;
+import io.github.filelize.file.FilesUtil;
+import io.github.filelize.FilelizeType;
+import io.github.filelize.FilelizeUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.filelize.FilelizeUtil.*;
+import static io.github.filelize.FilelizeUtil.*;
 
 public class PathHandler {
 
