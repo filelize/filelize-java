@@ -45,6 +45,11 @@ public class FilelizerSingleFileTest {
         var response = filelizer.find(id, SomethingSingle.class);
         assertNull(response);
     }
+    @Test
+    public void testFind_WhenFileIsMissing() {
+        var response = filelizer.find("n/a", SomethingElse.class);
+        assertNull(response);
+    }
 
     private static List<SomethingSingle> createSomethingSingleList() {
         var somethings = new ArrayList<SomethingSingle>();
