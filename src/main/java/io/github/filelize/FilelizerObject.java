@@ -7,10 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FilelizerObject implements IFilelizer  {
     private final Logger log = LoggerFactory.getLogger(FilelizerObject.class);
@@ -43,15 +42,10 @@ public class FilelizerObject implements IFilelizer  {
 
     @Override
     public <T> Map<String, T> findAll(Class<T> valueType) {
-        var fullPath = pathHandler.getFullPath(valueType);
-        try {
-            return fileHandler.readFileMap(fullPath, valueType);
-        } catch (NoSuchFileException e) {
-            return new HashMap<>();
-        } catch (IOException e) {
-            log.error("Error occurred when trying to get " + fullPath, e);
-            return new HashMap<>();
-        }
+        List<T> t = find(valueType.getSimpleName() + "_all",  List.class);
+        Map<String, T> resultMap = t.stream()
+                .collect(Collectors.toMap(Object::toString, item -> item));
+        return resultMap;
     }
 
     @Override
@@ -62,7 +56,7 @@ public class FilelizerObject implements IFilelizer  {
     @Override
     public <T> String save(String id, T object) {
         try {
-            var fullPath = pathHandler.getFullPath(id, object);
+            var fullPath = pathHandler.getFullPath2(id, object);
             fileHandler.writeFile(fullPath, object);
             return id;
         } catch (IOException e) {

@@ -27,7 +27,7 @@ public class PathHandler {
         return getDirectoryPath(object) + "/" + filename;
     }
 
-    public String getFullPath(String id, Object object) {
+    public String getFullPath2(String id, Object object) {
         return getDirectoryPath(object) + "/" + id + ".json";
     }
 
@@ -35,9 +35,10 @@ public class PathHandler {
         if(filelizeType == FilelizeType.MULTIPLE_FILES) {
             var name = getFilelizeName(valueType);
             return getDirectoryPath(valueType) + "/" + getFilename(id, name);
-        } else {
+        } else if(filelizeType == FilelizeType.SINGLE_FILE) {
             return getFullPath(valueType);
         }
+        return getFullPath2(id, valueType);
     }
 
     public <T> String getFullPathOfMap(Map<String, T> objects) {
