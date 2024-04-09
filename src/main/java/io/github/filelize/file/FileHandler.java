@@ -44,7 +44,7 @@ public class FileHandler {
             JavaType mapType = objectMapper.getTypeFactory().constructMapType(Map.class, String.class, valueType);
             return objectMapper.readValue(json.traverse(), mapType);
         } catch (NoSuchFileException e) {
-            return null;
+            return new HashMap<>();
         }
     }
 
