@@ -50,6 +50,7 @@ public class FilelizerSingle implements IFilelizer  {
         }
     }
 
+    @Override
     public <T> String save(T object) {
         Map<String, T> objectsToUpdate = findAll((Class<T>) object.getClass());
         var id = getFilelizeId(objectMapper, object);
@@ -58,6 +59,12 @@ public class FilelizerSingle implements IFilelizer  {
         return id;
     }
 
+    @Override
+    public <T> String save(String id, T object) {
+        return save(object);
+    }
+
+    @Override
     public <T> List<String> saveAll(List<T> objects) {
         Map<String, T> objectsToUpdate = findAll((Class<T>) objects.get(0).getClass());
         for(T object : objects) {

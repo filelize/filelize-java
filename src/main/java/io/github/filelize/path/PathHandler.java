@@ -27,6 +27,10 @@ public class PathHandler {
         return getDirectoryPath(object) + "/" + filename;
     }
 
+    public String getFullPath(String id, Object object) {
+        return getDirectoryPath(object) + "/" + id + ".json";
+    }
+
     public <T> String getFullPath(String id, Class<T> valueType) {
         if(filelizeType == FilelizeType.MULTIPLE_FILES) {
             var name = getFilelizeName(valueType);

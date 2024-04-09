@@ -1,18 +1,4 @@
 {
-  "bee4423bd917c50eb9c6f24cd08e9d07" : {
-    "id" : "e1",
-    "value" : "Some Value"
-  },
-  "b03e075bd6b679d8e3e9f2e76ee8cb80" : {
-    "id" : "e10",
-    "value" : "Some Value"
-  },
-  "6d10a910f4994fe2f36caf6c3c9d7ee9" : {
-    "id" : "e11",
-    "value" : "Some Value"
-  },
-  "8b2eb5fb913ef709b5f020849783280a" : {
-    "id" : "e12",
-    "value" : "Some Value"
-  }
+  "id" : "e1",
+  "value" : "Some Value"
 }

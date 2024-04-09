@@ -20,7 +20,7 @@ public class FilelizerSomethingElseTest {
     public void testSave() {
         var somethingElse = createSomethingElse("e1");
         var id = filelizer.save(somethingElse);
-        assertEquals("bee4423bd917c50eb9c6f24cd08e9d07", id);
+        assertEquals("SomethingElse", id);
 
         var response = filelizer.find(id, SomethingElse.class);
         assertNotNull(response);
@@ -30,7 +30,7 @@ public class FilelizerSomethingElseTest {
     public void testSaveAll() {
         var somethings = createSomethingElseList();
         List<String> ids = filelizer.saveAll(somethings);
-        assertNotNull(ids);
+        assertEquals("SomethingElse_all", ids.stream().findFirst().orElse(null));
         var response = filelizer.findAll(SomethingElse.class);
         assertNotNull(response);
     }

@@ -7,28 +7,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.NoSuchFileException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.filelize.FilelizeUtil.*;
-
-public class FilelizerMultiple implements IFilelizer {
-    private final Logger log = LoggerFactory.getLogger(FilelizerMultiple.class);
+public class FilelizerObject implements IFilelizer  {
+    private final Logger log = LoggerFactory.getLogger(FilelizerObject.class);
     private final ObjectMapper objectMapper;
     private final PathHandler pathHandler;
     private final FileHandler fileHandler;
 
-    public FilelizerMultiple(String basePath) {
+    public FilelizerObject(String basePath) {
         this.objectMapper = new ObjectMapper();
-        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES, objectMapper);
+        this.pathHandler = new PathHandler(basePath, FilelizeType.OBJECT_FILE, objectMapper);
         this.fileHandler = new FileHandler(objectMapper);
     }
 
-    public FilelizerMultiple(String basePath, ObjectMapper objectMapper) {
+    public FilelizerObject(String basePath, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES, objectMapper);
+        this.pathHandler = new PathHandler(basePath, FilelizeType.OBJECT_FILE, objectMapper);
         this.fileHandler = new FileHandler(objectMapper);
     }
 
@@ -45,39 +43,38 @@ public class FilelizerMultiple implements IFilelizer {
 
     @Override
     public <T> Map<String, T> findAll(Class<T> valueType) {
-        var fullPaths = pathHandler.getFullPaths(valueType);
-        var objects = new HashMap<String, T>();
-        for(var entrySet : fullPaths.entrySet()) {
-            var object = readFile(entrySet.getValue(), valueType);
-            objects.put(entrySet.getKey(), object);
+        var fullPath = pathHandler.getFullPath(valueType);
+        try {
+            return fileHandler.readFileMap(fullPath, valueType);
+        } catch (NoSuchFileException e) {
+            return new HashMap<>();
+        } catch (IOException e) {
+            log.error("Error occurred when trying to get " + fullPath, e);
+            return new HashMap<>();
         }
-        return objects;
     }
 
     @Override
-    public String save(Object object) {
+    public <T> String save(T object) {
+        return save(object.getClass().getSimpleName(), object);
+    }
+
+    @Override
+    public <T> String save(String id, T object) {
         try {
-            var fullPath = pathHandler.getFullPath(object);
+            var fullPath = pathHandler.getFullPath(id, object);
             fileHandler.writeFile(fullPath, object);
-            return getFilelizeId(objectMapper, object);
+            return id;
         } catch (IOException e) {
             throw new RuntimeException("Error occurred when trying to open or create a file for writing",e);
         }
     }
 
     @Override
-    public <T> String save(String id, T object) {
-        return save(object);
-    }
-
-    @Override
     public <T> List<String> saveAll(List<T> objects) {
-        var filenames = new ArrayList<String>();
-        for(var object : objects) {
-            String filename = save(object);
-            filenames.add(filename);
-        }
-        return filenames;
+        var object = objects.stream().findFirst().orElse((T) objects);
+        String id = save(object.getClass().getSimpleName()+"_all", objects);
+        return List.of(id);
     }
 
     @Override
@@ -87,15 +84,6 @@ public class FilelizerMultiple implements IFilelizer {
             fileHandler.delete(fullPath);
         } catch (IOException e) {
             log.error("Error occurred when trying to delete " + fullPath, e);
-        }
-    }
-
-    private <T> T readFile(String fullPath, Class<T> valueType) {
-        try {
-            return fileHandler.readFile(fullPath, valueType);
-        } catch (IOException e) {
-            log.error("Error occurred when trying to get " + fullPath, e);
-            return null;
         }
     }
 }

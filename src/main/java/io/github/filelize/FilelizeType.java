@@ -1,5 +1,5 @@
 package io.github.filelize;
 
 public enum FilelizeType {
-    SINGLE_FILE, MULTIPLE_FILES
+    OBJECT_FILE, SINGLE_FILE, MULTIPLE_FILES
 }

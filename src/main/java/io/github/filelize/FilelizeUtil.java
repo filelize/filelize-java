@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -51,7 +52,11 @@ public class FilelizeUtil {
         Class<?> clazz = getClazz(object);
         List<String> jsonFilenameList = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
-            field.setAccessible(true);
+            try {
+                field.setAccessible(true);
+            } catch (InaccessibleObjectException e) {
+                //do nothing
+            }
             if (field.isAnnotationPresent(Id.class)) {
                 jsonFilenameList.add(getString(object, field));
             }
