@@ -27,6 +27,16 @@ public class FilelizerSomethingElseTest {
     }
 
     @Test
+    public void testSaveWithId() {
+        var somethingElse = createSomethingElse("e2");
+        var id = filelizer.save("my_something_else", somethingElse);
+        assertEquals("my_something_else", id);
+
+        var response = filelizer.find(id, SomethingElse.class);
+        assertNotNull(response);
+    }
+
+    @Test
     public void testSaveAll() {
         var somethings = createSomethingElseList();
         List<String> ids = filelizer.saveAll(somethings);

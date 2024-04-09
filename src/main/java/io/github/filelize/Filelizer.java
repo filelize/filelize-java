@@ -33,6 +33,7 @@ public class Filelizer implements IFilelizer {
         this.defaultFilelizeType = defaultFilelizeType;
     }
 
+    @Override
     public <T> T find(String id, Class<T> valueType) {
         var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
@@ -54,6 +55,7 @@ public class Filelizer implements IFilelizer {
         return filelizerObject.findAll(valueType);
     }
 
+    @Override
     public <T> String save(T object) {
         var filelizeType = getFilelizeType(object, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
@@ -64,16 +66,18 @@ public class Filelizer implements IFilelizer {
         return filelizerObject.save(object);
     }
 
-    public <T> String save(String filename, T object) {
+    @Override
+    public <T> String save(String id, T object) {
         var filelizeType = getFilelizeType(object, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.save(object);
+            return filelizerSingle.save(id, object);
         } else if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            return filelizerMultiple.save(object);
+            return filelizerMultiple.save(id, object);
         }
-        return filelizerObject.save(object);
+        return filelizerObject.save(id, object);
     }
 
+    @Override
     public <T> List<String> saveAll(List<T> objects) {
         var filelizeType = getFilelizeTypeOfList(objects, defaultFilelizeType);
         if(filelizeType == FilelizeType.SINGLE_FILE) {
