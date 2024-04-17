@@ -105,16 +105,18 @@ public class FilelizerService {
 }
 ```
 
-## Filelize for Test Data Mock
-So you are working on a unit test and need to mock an external service or just a large internal object, to be able to make a meaningful test.
-Here are some steps you could take to get your test-data mock:
+## Filelize for Test Data Setup
 
-1. Create a filelizer service that saves your objects to a test data folder
+So you are working on setting up test data scenario for your unit test. This manual process is typically involving alot of boilerplate code. This is especially true when working on complex classes that contain many fields and collections.
+What we usually need is the presence of a value, where only a few values are important to be able to make a meaningful test.
+Here are some steps you could take to setup your test data:
+
+1. Create a Filelizer service that saves your objects or collections to a test data folder
 ```java
 Filelizer filelizer = new Filelizer("src/test/resources/testdata");
 ```
-2. Run the application with the scenarios that you wanna test. Make sure to save the result for each scenario, e.g. `filelizer.save("unitTest1", something);` 
-3. Now you should have some test data files in your testdata folder like: `.../testdata/unitTest1.json` and `.../testdata/unitTest2.json`
+2. Run the application with the scenarios that you wanna test. Make sure to save the result for each scenario, e.g. `filelizer.save("somethingTest1", something);`
+3. Now you should have some test data files in your testdata folder like: `.../testdata/somethingTest1.json` and `.../testdata/somethingTest2.json`
 4. Create a test and load your test data
 ```java
 @Test
@@ -123,5 +125,6 @@ public void testSomething() {
     assertEquals("somethingTest2", something.getId());
 }
 ```
+
 ## Contribute
 Contributions are welcomed! Feel free to create a pull request to contribute.
