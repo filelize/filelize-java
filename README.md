@@ -1,7 +1,7 @@
 # Filelize for java/kotlin
 ![Filelize build status](https://github.com/filelize/filelize-java/actions/workflows/maven.yml/badge.svg) ![Filelize release status](https://github.com/filelize/filelize-java/actions/workflows/maven-publish.yml/badge.svg)
 
-Filelize is a lightweight library designed to simplify writing and reading data in human-readable files, requiring just one line of code.
+Filelize is a lightweight library designed to simplify writing and reading data into human-readable files, requiring just one line of code.
 
 One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files. Filelize is most commonly used for [Test Data Setup](https://github.com/filelize/filelize-java?tab=readme-ov-file#filelize-for-test-data-setup).
 
