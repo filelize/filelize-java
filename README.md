@@ -22,6 +22,8 @@ For Gradle, you can use:
 implementation 'io.github.filelize:filelize-java:0.9.3'
 ```
 
+Ref: [Publish your artifact to the Maven Central Repository using GitHub Actions](https://medium.com/@jtbsorensen/publish-your-artifact-to-the-maven-central-repository-using-github-actions-15d3b5d9ce88)
+
 ## Getting started
 
 Initialize a `Filelizer` with your preferred location of your files. (For subdirectories you can add them directly on your domain object)
