@@ -1,9 +1,9 @@
 # Filelize for java/kotlin
 ![Filelize build status](https://github.com/filelize/filelize-java/actions/workflows/maven.yml/badge.svg) ![Filelize release status](https://github.com/filelize/filelize-java/actions/workflows/maven-publish.yml/badge.svg)
 
-Filelize is a lightweight Java/Kotlin library designed to simplify the process of saving and reading objects in human-readable files.
+Filelize is a lightweight library designed to simplify writing and reading data in human-readable files, requiring just one line of code.
 
-One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files.
+One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files. Filelize is most commonly used for [Test Data Setup](https://github.com/filelize/filelize-java?tab=readme-ov-file#filelize-for-test-data-setup).
 
 ### Usage
 
@@ -108,7 +108,7 @@ public class FilelizerService {
 ## Filelize for Test Data Setup
 
 So you are working on setting up test data scenario for your unit test. This manual process is typically involving alot of boilerplate code. This is especially true when working on complex classes that contain many fields and collections.
-What we usually need is the presence of a value, where only a few values are important to be able to make a meaningful test.
+What we usually need is the presence of an object, where only a few values are important to be able to make a meaningful test.
 Here are some steps you could take to setup your test data:
 
 1. Create a Filelizer service that saves your objects or collections to a test data folder
