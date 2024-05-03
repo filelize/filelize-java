@@ -5,6 +5,8 @@ Filelize is a lightweight library designed to simplify writing and reading data 
 
 One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files. Filelize is most commonly used for [Test Data Setup](https://github.com/filelize/filelize-java?tab=readme-ov-file#filelize-for-test-data-setup).
 
+<img align="right" src="/filelize.jpg" alt="Filelize" width="250" height="250"> 
+
 ### Usage
 
 To integrate [Filelizer](https://mvnrepository.com/artifact/io.github.filelize/filelize-java) into your project, add the following dependency to your pom.xml 
