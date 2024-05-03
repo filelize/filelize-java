@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>filelize-java</name>
-	<description>When you just need a simple way to save an object to a human-readable file</description>
+	<description>Filelize is a lightweight library designed to simplify writing and reading data in human-readable files, requiring just one line of code</description>
 	<url>https://github.com/filelize/filelize-java</url>
 
 	<developers>
