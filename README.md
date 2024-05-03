@@ -1,7 +1,7 @@
 # Filelize for java/kotlin
 ![Filelize build status](https://github.com/filelize/filelize-java/actions/workflows/maven.yml/badge.svg) ![Filelize release status](https://github.com/filelize/filelize-java/actions/workflows/maven-publish.yml/badge.svg)
 
-<img align="right" src="/filelize.jpg" alt="Filelize" width="155" height="155"> 
+<img align="right" src="/filelize.jpg" alt="Filelize" width="160" height="160"> 
 
 Filelize is a lightweight library designed to simplify writing and reading data into human-readable files, requiring just one line of code.
 
