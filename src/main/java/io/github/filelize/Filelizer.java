@@ -1,6 +1,7 @@
 package io.github.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class Filelizer implements IFilelizer {
     public Filelizer(String basePath) {
         var objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z"));
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.filelizerObject = new FilelizerObject(basePath, objectMapper);
         this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
         this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
@@ -33,7 +34,7 @@ public class Filelizer implements IFilelizer {
 
     public Filelizer(String basePath, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
         objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z"));
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.filelizerObject = new FilelizerObject(basePath, objectMapper);
         this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
         this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
