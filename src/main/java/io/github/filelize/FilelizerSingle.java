@@ -18,12 +18,6 @@ public class FilelizerSingle implements IFilelizer  {
     private final PathHandler pathHandler;
     private final FileHandler fileHandler;
 
-    public FilelizerSingle(String basePath) {
-        this.objectMapper = new ObjectMapper();
-        this.pathHandler = new PathHandler(basePath, FilelizeType.SINGLE_FILE, objectMapper);
-        this.fileHandler = new FileHandler(objectMapper);
-    }
-
     public FilelizerSingle(String basePath, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.pathHandler = new PathHandler(basePath, FilelizeType.SINGLE_FILE, objectMapper);

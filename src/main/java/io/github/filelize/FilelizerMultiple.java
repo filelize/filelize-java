@@ -20,12 +20,6 @@ public class FilelizerMultiple implements IFilelizer {
     private final PathHandler pathHandler;
     private final FileHandler fileHandler;
 
-    public FilelizerMultiple(String basePath) {
-        this.objectMapper = new ObjectMapper();
-        this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES, objectMapper);
-        this.fileHandler = new FileHandler(objectMapper);
-    }
-
     public FilelizerMultiple(String basePath, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.pathHandler = new PathHandler(basePath, FilelizeType.MULTIPLE_FILES, objectMapper);

@@ -1,9 +1,11 @@
 package io.github.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -20,13 +22,18 @@ public class Filelizer implements IFilelizer {
     private final FilelizeType defaultFilelizeType;
 
     public Filelizer(String basePath) {
-        this.filelizerObject = new FilelizerObject(basePath);
-        this.filelizerSingle = new FilelizerSingle(basePath);
-        this.filelizerMultiple = new FilelizerMultiple(basePath);
+        var objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z"));
+        this.filelizerObject = new FilelizerObject(basePath, objectMapper);
+        this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
+        this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
         this.defaultFilelizeType = FilelizeType.OBJECT_FILE;
     }
 
     public Filelizer(String basePath, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z"));
         this.filelizerObject = new FilelizerObject(basePath, objectMapper);
         this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
         this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);

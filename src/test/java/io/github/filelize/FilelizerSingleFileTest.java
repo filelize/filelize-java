@@ -2,6 +2,8 @@ package io.github.filelize;
 
 import org.junit.Test;
 
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +63,7 @@ public class FilelizerSingleFileTest {
     private static SomethingSingle createSomethingSingle(String id) {
         var something = new SomethingSingle();
         something.setId(id);
+        something.setCreated(ZonedDateTime.of(2024, 2, 2, 0, 0, 0, 0, ZoneOffset.UTC));
         something.setName("Some Name");
         return something;
     }
