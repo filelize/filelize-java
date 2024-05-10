@@ -45,21 +45,11 @@ public class Filelizer implements IFilelizer {
     }
 
     private IFilelizer resolveFilelizerType(FilelizeType filelizeType) {
-        // I do not like this implementation. It's mandated because of object graph structure and Java 11.
-        // With Java 17 or later, this becomes a switch expression and is much nicer.
-        IFilelizer filelizer = null;
-        switch (filelizeType) {
-            case MULTIPLE_FILES:
-                filelizer = filelizerMultiple;
-                break;
-            case SINGLE_FILE:
-                filelizer = filelizerSingle;
-                break;
-            case OBJECT_FILE:
-                filelizer = filelizerObject;
-                break;
-        }
-        return filelizer;
+        return switch(filelizeType) {
+            case MULTIPLE_FILES -> filelizerMultiple;
+            case SINGLE_FILE -> filelizerSingle;
+            case OBJECT_FILE -> filelizerObject;
+        };
     }
 
     @Override

@@ -32,6 +32,7 @@ public class PathHandler {
         return getDirectoryPath(object) + "/" + id + ".json";
     }
 
+    // TODO should use the abstraction from Filelizer to dispatch: object graph issue
     public <T> String getFullPath(String id, Class<T> valueType) {
         if(filelizeType == FilelizeType.MULTIPLE_FILES) {
             var name = getFilelizeName(valueType);
