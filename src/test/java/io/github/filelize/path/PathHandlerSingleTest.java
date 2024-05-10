@@ -3,12 +3,12 @@ package io.github.filelize.path;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.filelize.FilelizeType;
 import io.github.filelize.SomethingSingle;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PathHandlerSingleTest {
 
