@@ -7,6 +7,7 @@ import io.github.filelize.FilelizeUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static io.github.filelize.FilelizeUtil.*;
 
@@ -75,10 +76,8 @@ public class PathHandler {
         return name + "_" + id + ".json";
     }
     private String getDirectoryPath(Object object){
-        if(object != null) {
-            return basePath + "/" + getFilelizeDirectory(object);
-        }
-        return basePath;
+        Objects.requireNonNull(object);
+        return basePath + "/" + getFilelizeDirectory(object);
     }
 
 }

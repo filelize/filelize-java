@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class FileHandlerTest {
 
@@ -17,9 +18,13 @@ public class FileHandlerTest {
     }
 
     @Test
-    public void testReadFile_ShouldHandleNoSuchFileException() throws IOException {
-        var something = fileHandler.readFile("tmp/not_existing_folder.json", SomethingElse.class);
-        assertNull(something);
+    public void testReadFile_ShouldHandleNoSuchFileException() {
+        try {
+            var something = fileHandler.readFile("tmp/not_existing_folder.json", SomethingElse.class);
+            assertNull(something);
+        } catch(IOException e) {
+            fail(e);
+        }
     }
 
 }
