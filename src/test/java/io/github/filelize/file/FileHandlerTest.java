@@ -2,11 +2,11 @@ package io.github.filelize.file;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.filelize.SomethingElse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class FileHandlerTest {
 
