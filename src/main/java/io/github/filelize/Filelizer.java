@@ -23,7 +23,7 @@ public class Filelizer implements IFilelizer {
 
     public Filelizer(String basePath) {
         var objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.findAndRegisterModules();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.filelizerObject = new FilelizerObject(basePath, objectMapper);
         this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
@@ -32,7 +32,7 @@ public class Filelizer implements IFilelizer {
     }
 
     public Filelizer(String basePath, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
-        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.findAndRegisterModules();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.filelizerObject = new FilelizerObject(basePath, objectMapper);
         this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
@@ -40,70 +40,45 @@ public class Filelizer implements IFilelizer {
         this.defaultFilelizeType = defaultFilelizeType;
     }
 
+    private IFilelizer resolveFilelizerType(Object valueType) {
+        return resolveFilelizerType(getFilelizeType(valueType, defaultFilelizeType));
+    }
+
+    private IFilelizer resolveFilelizerType(FilelizeType filelizeType) {
+        return switch(filelizeType) {
+            case MULTIPLE_FILES -> filelizerMultiple;
+            case SINGLE_FILE -> filelizerSingle;
+            case OBJECT_FILE -> filelizerObject;
+        };
+    }
+
     @Override
     public <T> T find(String id, Class<T> valueType) {
-        var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
-        if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.find(id, valueType);
-        } else if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            return filelizerMultiple.find(id, valueType);
-        }
-        return filelizerObject.find(id, valueType);
+        return resolveFilelizerType(valueType).find(id, valueType);
     }
 
     @Override
     public <T> Map<String, T> findAll(Class<T> valueType) {
-        var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
-        if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.findAll(valueType);
-        } else if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            return filelizerMultiple.findAll(valueType);
-        }
-        return filelizerObject.findAll(valueType);
+        return resolveFilelizerType(valueType).findAll(valueType);
     }
 
     @Override
     public <T> String save(T object) {
-        var filelizeType = getFilelizeType(object, defaultFilelizeType);
-        if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.save(object);
-        } else if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            return filelizerMultiple.save(object);
-        }
-        return filelizerObject.save(object);
+        return resolveFilelizerType(object).save(object);
     }
 
     @Override
     public <T> String save(String id, T object) {
-        var filelizeType = getFilelizeType(object, defaultFilelizeType);
-        if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.save(id, object);
-        } else if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            return filelizerMultiple.save(id, object);
-        }
-        return filelizerObject.save(id, object);
+        return resolveFilelizerType(object).save(id, object);
     }
 
     @Override
     public <T> List<String> saveAll(List<T> objects) {
-        var filelizeType = getFilelizeTypeOfList(objects, defaultFilelizeType);
-        if(filelizeType == FilelizeType.SINGLE_FILE) {
-            return filelizerSingle.saveAll(objects);
-        } else if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            return filelizerMultiple.saveAll(objects);
-        }
-        return filelizerObject.saveAll(objects);
+        return resolveFilelizerType(getFilelizeTypeOfList(objects, defaultFilelizeType)).saveAll(objects);
     }
 
     @Override
     public <T> void delete(String id, Class<T> valueType) {
-        var filelizeType = getFilelizeType(valueType, defaultFilelizeType);
-        if(filelizeType == FilelizeType.SINGLE_FILE) {
-            filelizerSingle.delete(id, valueType);
-        } else if(filelizeType == FilelizeType.MULTIPLE_FILES) {
-            filelizerMultiple.delete(id, valueType);
-        } else {
-            filelizerObject.delete(id, valueType);
-        }
+        resolveFilelizerType(valueType).delete(id, valueType);
     }
 }

@@ -29,7 +29,7 @@ public class FilelizerObject implements IFilelizer  {
         try {
             return fileHandler.readFile(fullPath, valueType);
         } catch (IOException e) {
-            log.error("Error occurred when trying to get " + fullPath, e);
+            log.error(String.format("Error occurred when trying to get %s", fullPath), e);
             return null;
         }
     }
@@ -71,7 +71,7 @@ public class FilelizerObject implements IFilelizer  {
         try {
             fileHandler.delete(fullPath);
         } catch (IOException e) {
-            log.error("Error occurred when trying to delete " + fullPath, e);
+            log.error(String.format("Error occurred when trying to delete %s", fullPath), e);
         }
     }
 }

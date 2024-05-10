@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PathHandlerSingleTest {
 
@@ -17,7 +18,14 @@ public class PathHandlerSingleTest {
     public PathHandlerSingleTest() {
         this.pathHandler = new PathHandler("src/test/resources", FilelizeType.SINGLE_FILE, new ObjectMapper());
     }
-
+@Test
+public void testPathHandlerReturnsEmptyBaseForNull() {
+        // TODO clarify API visibility
+        assertThrows(NullPointerException.class, () -> {
+            var path = pathHandler.getFullPath2("foo", null);
+            assertEquals("src/test/resources/foo.json", path);
+        });
+}
     @Test
     public void testGetFullPath() {
         var fullPath = pathHandler.getFullPath(new SomethingSingle());
