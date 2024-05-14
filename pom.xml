@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>filelize-java</name>
-	<description>Filelize is a lightweight library designed to simplify writing and reading data into human-readable files, requiring just one line of code</description>
+	<description>Filelize is a lightweight database designed to simplify writing and reading data into human-readable files, requiring just one line of code</description>
 	<url>https://github.com/filelize/filelize-java</url>
 
 	<developers>
