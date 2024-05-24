@@ -14,12 +14,12 @@ To integrate [Filelizer](https://mvnrepository.com/artifact/io.github.filelize/f
 <dependency>
   <groupId>io.github.filelize</groupId>
   <artifactId>filelize-java</artifactId>
-  <version>0.9.3</version>
+  <version>0.9.4</version>
 </dependency>
 ```
 For Gradle, you can use:
 ```groovy
-implementation 'io.github.filelize:filelize-java:0.9.3'
+implementation 'io.github.filelize:filelize-java:0.9.4'
 ```
 
 Ref: [Publish your artifact to the Maven Central Repository using GitHub Actions](https://medium.com/@jtbsorensen/publish-your-artifact-to-the-maven-central-repository-using-github-actions-15d3b5d9ce88)
