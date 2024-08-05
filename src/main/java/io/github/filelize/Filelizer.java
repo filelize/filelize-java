@@ -1,8 +1,8 @@
 package io.github.filelize;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,34 +22,19 @@ public class Filelizer implements IFilelizer {
     private final FilelizeType defaultFilelizeType;
 
     public Filelizer(String basePath) {
-        var objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        var objectMapper = prepareObjectMapper(new ObjectMapper());
         this.filelizerObject = new FilelizerObject(basePath, objectMapper);
         this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
         this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
         this.defaultFilelizeType = FilelizeType.OBJECT_FILE;
     }
 
-    public Filelizer(String basePath, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
-        objectMapper.findAndRegisterModules();
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    public Filelizer(String basePath, ObjectMapper _objectMapper, FilelizeType defaultFilelizeType) {
+        var objectMapper = prepareObjectMapper(_objectMapper);
         this.filelizerObject = new FilelizerObject(basePath, objectMapper);
         this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
         this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
         this.defaultFilelizeType = defaultFilelizeType;
-    }
-
-    private IFilelizer resolveFilelizerType(Object valueType) {
-        return resolveFilelizerType(getFilelizeType(valueType, defaultFilelizeType));
-    }
-
-    private IFilelizer resolveFilelizerType(FilelizeType filelizeType) {
-        return switch(filelizeType) {
-            case MULTIPLE_FILES -> filelizerMultiple;
-            case SINGLE_FILE -> filelizerSingle;
-            case OBJECT_FILE -> filelizerObject;
-        };
     }
 
     @Override
@@ -80,5 +65,24 @@ public class Filelizer implements IFilelizer {
     @Override
     public <T> void delete(String id, Class<T> valueType) {
         resolveFilelizerType(valueType).delete(id, valueType);
+    }
+
+    private IFilelizer resolveFilelizerType(Object valueType) {
+        return resolveFilelizerType(getFilelizeType(valueType, defaultFilelizeType));
+    }
+
+    private IFilelizer resolveFilelizerType(FilelizeType filelizeType) {
+        return switch(filelizeType) {
+            case MULTIPLE_FILES -> filelizerMultiple;
+            case SINGLE_FILE -> filelizerSingle;
+            case OBJECT_FILE -> filelizerObject;
+        };
+    }
+
+    private static ObjectMapper prepareObjectMapper(ObjectMapper objectMapper) {
+        objectMapper.findAndRegisterModules();
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        return objectMapper;
     }
 }
