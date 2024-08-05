@@ -3,7 +3,7 @@
 
 <img align="right" src="/filelize.jpg" alt="Filelize" width="160" height="160"> 
 
-Filelize is a lightweight library designed to simplify writing and reading data into human-readable files, requiring just one line of code.
+Filelize is a lightweight database designed to simplify writing and reading data into human-readable files, requiring just one line of code.
 
 One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files. Filelize is most commonly used to save files as json for [Test Data Setup](https://github.com/filelize/filelize-java?tab=readme-ov-file#filelize-for-test-data-setup).
 
@@ -14,12 +14,12 @@ To integrate [Filelizer](https://mvnrepository.com/artifact/io.github.filelize/f
 <dependency>
   <groupId>io.github.filelize</groupId>
   <artifactId>filelize-java</artifactId>
-  <version>0.9.3</version>
+  <version>0.9.4</version>
 </dependency>
 ```
 For Gradle, you can use:
 ```groovy
-implementation 'io.github.filelize:filelize-java:0.9.3'
+implementation 'io.github.filelize:filelize-java:0.9.4'
 ```
 
 Ref: [Publish your artifact to the Maven Central Repository using GitHub Actions](https://medium.com/@jtbsorensen/publish-your-artifact-to-the-maven-central-repository-using-github-actions-15d3b5d9ce88)
