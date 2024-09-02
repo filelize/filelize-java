@@ -3,9 +3,10 @@
 
 <img align="right" src="/filelize.jpg" alt="Filelize" width="160" height="160"> 
 
-Filelize is a lightweight database designed to simplify writing and reading data into human-readable files, requiring just one line of code.
+Filelize is a lightweight database that simplifies writing and reading data into human-readable files, requiring just one line of code.
 
-One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files. Filelize is most commonly used to save files as json for [Test Data Setup](https://github.com/filelize/filelize-java?tab=readme-ov-file#filelize-for-test-data-setup).
+One of the biggest advantages is in the annotations and methods provided, eliminating the need for repetitive boilerplate code. Additionally, it offers flexibility with options for both single and multiple file storage, giving an easy way to work with very large collections distributed among multiple files. 
+Filelize is most commonly used to save files as json for [Test Data Setup](https://github.com/filelize/filelize-java?tab=readme-ov-file#filelize-for-test-data-setup) or when a full-fledged database isn't necessary.
 
 ### Usage
 
