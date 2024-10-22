@@ -1,4 +1,4 @@
-# Filelize for java/kotlin
+# Filelize for java, android and kotlin
 ![Filelize build status](https://github.com/filelize/filelize-java/actions/workflows/maven.yml/badge.svg) ![Filelize release status](https://github.com/filelize/filelize-java/actions/workflows/maven-publish.yml/badge.svg)
 
 <img align="right" src="/filelize.jpg" alt="Filelize" width="160" height="160"> 
