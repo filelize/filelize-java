@@ -34,19 +34,19 @@ Filelizer filelizer = new Filelizer("src/test/resources/");
 ```
 #### Save an object
 ```java
-var id = filelizer.save(something);
+String id = filelizer.save(something);
 ```
 #### SaveAll objects in one or multiple file(s):
 ```java
-var ids = filelizer.saveAll(somethings);
+List<String> ids = filelizer.saveAll(somethings);
 ```
 #### Find a object
 ```java
-var something = filelizer.find("id1", Something.class);
+Something something = filelizer.find("id1", Something.class);
 ```
 #### FindAll objects:
 ```java
-var somethings = filelizer.findAll(Something.class);
+List<Something> somethings = filelizer.findAll(Something.class);
 ```
 
 ### Saving to a single file
