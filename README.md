@@ -133,3 +133,5 @@ public void testSomething() {
 
 ## Contribute
 Contributions are welcomed! Feel free to create a pull request to contribute.
+
+[![Star History Chart](https://api.star-history.com/svg?repos=filelize/filelize-java&type=Date)](https://star-history.com/#filelize/filelize-java&Date)
