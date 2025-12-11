@@ -37,10 +37,10 @@ public class FilelizerSingle implements IFilelizer  {
         try {
             return fileHandler.readFileMap(fullPath, valueType);
         } catch (NoSuchFileException e) {
-            return new HashMap<>();
+            return new LinkedHashMap<>();
         } catch (IOException e) {
             log.error("Error occurred when trying to get " + fullPath, e);
-            return new HashMap<>();
+            return new LinkedHashMap<>();
         }
     }
 

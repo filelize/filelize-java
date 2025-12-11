@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static io.github.filelize.FilelizeUtil.getFilelizeId;
@@ -41,15 +41,15 @@ public class FileHandler {
     public <T> Map<String, T> readFileMap(String fullPath, Class<T> valueType) throws IOException {
         try {
             JsonNode json = objectMapper.readTree(getNewBufferedReader(fullPath));
-            JavaType mapType = objectMapper.getTypeFactory().constructMapType(Map.class, String.class, valueType);
+            JavaType mapType = objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, valueType);
             return objectMapper.readValue(json.traverse(), mapType);
         } catch (NoSuchFileException e) {
-            return new HashMap<>();
+            return new LinkedHashMap<>();
         }
     }
 
     public <T> Map<String, Object> readFiles(String folderPath, Class<T> valueType) throws IOException {
-        Map<String, Object> content = new HashMap<>();
+        Map<String, Object> content = new LinkedHashMap<>();
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
         if (files != null) {
@@ -77,7 +77,7 @@ public class FileHandler {
         try {
             Files.delete(Path.of(fullPath));
         } catch (NoSuchFileException e) {
-            log.warn("No such file: " + fullPath);
+            log.warn("No such file: {}", fullPath);
         }
     }
 }
