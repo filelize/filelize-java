@@ -15,7 +15,7 @@ To integrate [Filelizer](https://mvnrepository.com/artifact/io.github.filelize/f
 <dependency>
   <groupId>io.github.filelize</groupId>
   <artifactId>filelize-java</artifactId>
-  <version>0.9.5</version>
+  <version>0.9.6</version>
 </dependency>
 ```
 For Gradle, you can use:
