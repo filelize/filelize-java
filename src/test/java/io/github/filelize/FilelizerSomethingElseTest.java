@@ -47,6 +47,31 @@ public class FilelizerSomethingElseTest {
         assertNotNull(response);
     }
 
+    @Test
+    public void testSync_WhenLocalRecordIsOlder() {
+        var local = createSomethingElse("sync_object");
+        local.setCreated(ZonedDateTime.of(2024, 3, 3, 0, 0, 0, 0, ZoneOffset.UTC));
+        local.setValue("Local Value");
+        filelizer.save("sync_object", local);
+
+        var response = filelizer.sync(
+                "sync_object",
+                SomethingElse.class,
+                ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC),
+                SomethingElse::getCreated,
+                id -> {
+                    var external = createSomethingElse(id);
+                    external.setCreated(ZonedDateTime.of(2026, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
+                    external.setValue("External Value");
+                    return external;
+                }
+        );
+
+        assertEquals("External Value", response.getValue());
+        assertEquals("External Value", filelizer.find("sync_object", SomethingElse.class).getValue());
+        filelizer.delete("sync_object", SomethingElse.class);
+    }
+
     private static List<SomethingElse> createSomethingElseList() {
         var somethings = new ArrayList<SomethingElse>();
         somethings.add(createSomethingElse("e10"));

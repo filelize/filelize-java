@@ -47,6 +47,31 @@ public class FilelizerMultipleFilesTest {
         assertNull(response);
     }
 
+    @Test
+    public void testSync_WhenLocalRecordIsOlder() {
+        var local = createSomethingMultiple("sync_multiple");
+        local.setCreated(ZonedDateTime.of(2024, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
+        local.setName("Local Name");
+        filelizer.save(local);
+
+        var response = filelizer.sync(
+                "sync_multiple",
+                SomethingMultiple.class,
+                ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC),
+                SomethingMultiple::getCreated,
+                id -> {
+                    var external = createSomethingMultiple(id);
+                    external.setCreated(ZonedDateTime.of(2026, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
+                    external.setName("External Name");
+                    return external;
+                }
+        );
+
+        assertEquals("External Name", response.getName());
+        assertEquals("External Name", filelizer.find("sync_multiple", SomethingMultiple.class).getName());
+        filelizer.delete("sync_multiple", SomethingMultiple.class);
+    }
+
     private static List<SomethingMultiple> createSomethingMultipleList() {
         var somethings = new ArrayList<SomethingMultiple>();
         somethings.add(createSomethingMultiple("m10"));

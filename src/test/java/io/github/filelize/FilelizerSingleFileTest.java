@@ -51,6 +51,50 @@ public class FilelizerSingleFileTest {
         assertNull(response);
     }
 
+    @Test
+    public void testSync_WhenLocalRecordIsOlder() {
+        var local = createSomethingSingle("sync_single");
+        local.setCreated(ZonedDateTime.of(2024, 2, 2, 0, 0, 0, 0, ZoneOffset.UTC));
+        local.setName("Local Name");
+        filelizer.save(local);
+
+        var response = filelizer.sync(
+                "sync_single",
+                SomethingSingle.class,
+                ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC),
+                SomethingSingle::getCreated,
+                id -> {
+                    var external = createSomethingSingle(id);
+                    external.setCreated(ZonedDateTime.of(2026, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
+                    external.setName("External Name");
+                    return external;
+                }
+        );
+
+        assertEquals("External Name", response.getName());
+        assertEquals("External Name", filelizer.find("sync_single", SomethingSingle.class).getName());
+        filelizer.delete("sync_single", SomethingSingle.class);
+    }
+
+    @Test
+    public void testSync_WhenLocalRecordIsFresh() {
+        var local = createSomethingSingle("sync_single_fresh");
+        local.setCreated(ZonedDateTime.of(2026, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
+        local.setName("Local Name");
+        filelizer.save(local);
+
+        var response = filelizer.sync(
+                "sync_single_fresh",
+                SomethingSingle.class,
+                ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC),
+                SomethingSingle::getCreated,
+                id -> fail("External loader should not be called for a fresh local record")
+        );
+
+        assertEquals("Local Name", response.getName());
+        filelizer.delete("sync_single_fresh", SomethingSingle.class);
+    }
+
     private static List<SomethingSingle> createSomethingSingleList() {
         var somethings = new ArrayList<SomethingSingle>();
         somethings.add(createSomethingSingle("s10"));
