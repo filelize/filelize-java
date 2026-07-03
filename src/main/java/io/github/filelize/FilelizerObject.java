@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,9 +38,11 @@ public class FilelizerObject implements IFilelizer  {
     @Override
     public <T> Map<String, T> findAll(Class<T> valueType) {
         List<T> t = find(valueType.getSimpleName() + "_all",  List.class);
-        Map<String, T> resultMap = t.stream()
-                .collect(Collectors.toMap(Object::toString, item -> item));
-        return resultMap;
+        if (t == null) {
+            return new LinkedHashMap<>();
+        }
+        return t.stream()
+                .collect(Collectors.toMap(Object::toString, item -> item, (a, b) -> b, LinkedHashMap::new));
     }
 
     @Override
@@ -60,7 +63,10 @@ public class FilelizerObject implements IFilelizer  {
 
     @Override
     public <T> List<String> saveAll(List<T> objects) {
-        var object = objects.stream().findFirst().orElse((T) objects);
+        if (objects.isEmpty()) {
+            return List.of();
+        }
+        var object = objects.get(0);
         String id = save(object.getClass().getSimpleName()+"_all", objects);
         return List.of(id);
     }

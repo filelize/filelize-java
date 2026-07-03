@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public class FilelizerMultiple implements IFilelizer {
     @Override
     public <T> Map<String, T> findAll(Class<T> valueType) {
         var fullPaths = pathHandler.getFullPaths(valueType);
-        var objects = new HashMap<String, T>();
+        var objects = new LinkedHashMap<String, T>();
         for(var entrySet : fullPaths.entrySet()) {
             var object = readFile(entrySet.getValue(), valueType);
             objects.put(entrySet.getKey(), object);

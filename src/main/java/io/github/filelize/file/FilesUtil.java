@@ -11,7 +11,10 @@ public class FilesUtil {
 
     public static void ensureFile(String fullPath) throws IOException {
         var path = Paths.get(fullPath);
-        Files.createDirectories(path.getParent());
+        var parent = path.getParent();
+        if (parent != null) {
+            Files.createDirectories(parent);
+        }
         if (!Files.exists(path)) {
             Files.createFile(path);
         }

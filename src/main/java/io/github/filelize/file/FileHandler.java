@@ -30,21 +30,29 @@ public class FileHandler {
     }
 
     public <T> T readFile(String fullPath, Class<T> valueType) throws IOException {
+        var lock = FileLocks.forPath(fullPath);
+        lock.lock();
         try {
             JsonNode json = objectMapper.readTree(getNewBufferedReader(fullPath));
             return objectMapper.treeToValue(json, valueType);
         } catch (NoSuchFileException e) {
             return null;
+        } finally {
+            lock.unlock();
         }
     }
 
     public <T> Map<String, T> readFileMap(String fullPath, Class<T> valueType) throws IOException {
+        var lock = FileLocks.forPath(fullPath);
+        lock.lock();
         try {
             JsonNode json = objectMapper.readTree(getNewBufferedReader(fullPath));
             JavaType mapType = objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, valueType);
             return objectMapper.readValue(json.traverse(), mapType);
         } catch (NoSuchFileException e) {
             return new LinkedHashMap<>();
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -65,8 +73,14 @@ public class FileHandler {
     }
 
     public void writeFile(String fullPath, Object object) throws IOException {
-        ensureFile(fullPath);
-        objectMapper.writerWithDefaultPrettyPrinter().writeValue(Files.newBufferedWriter(Paths.get(fullPath)), object);
+        var lock = FileLocks.forPath(fullPath);
+        lock.lock();
+        try {
+            ensureFile(fullPath);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Files.newBufferedWriter(Paths.get(fullPath)), object);
+        } finally {
+            lock.unlock();
+        }
     }
 
     private static BufferedReader getNewBufferedReader(String fullPath) throws IOException {
@@ -74,10 +88,14 @@ public class FileHandler {
     }
 
     public void delete(String fullPath) throws IOException {
+        var lock = FileLocks.forPath(fullPath);
+        lock.lock();
         try {
             Files.delete(Path.of(fullPath));
         } catch (NoSuchFileException e) {
             log.warn("No such file: {}", fullPath);
+        } finally {
+            lock.unlock();
         }
     }
 }

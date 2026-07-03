@@ -2,6 +2,7 @@ package io.github.filelize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.filelize.file.FileHandler;
+import io.github.filelize.file.FileLocks;
 import io.github.filelize.path.PathHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,11 +47,17 @@ public class FilelizerSingle implements IFilelizer  {
 
     @Override
     public <T> String save(T object) {
-        Map<String, T> objectsToUpdate = findAll((Class<T>) object.getClass());
-        var id = getFilelizeId(objectMapper, object);
-        objectsToUpdate.put(id, object);
-        save2(objectsToUpdate);
-        return id;
+        var lock = FileLocks.forPath(pathHandler.getFullPath(object.getClass()));
+        lock.lock();
+        try {
+            Map<String, T> objectsToUpdate = findAll((Class<T>) object.getClass());
+            var id = getFilelizeId(objectMapper, object);
+            objectsToUpdate.put(id, object);
+            save2(objectsToUpdate);
+            return id;
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override
@@ -60,20 +67,31 @@ public class FilelizerSingle implements IFilelizer  {
 
     @Override
     public <T> List<String> saveAll(List<T> objects) {
-        Map<String, T> objectsToUpdate = findAll((Class<T>) objects.get(0).getClass());
-        for(T object : objects) {
-            var id = getFilelizeId(objectMapper, object);
-            objectsToUpdate.put(id, object);
+        var lock = FileLocks.forPath(pathHandler.getFullPath(objects.get(0).getClass()));
+        lock.lock();
+        try {
+            Map<String, T> objectsToUpdate = findAll((Class<T>) objects.get(0).getClass());
+            for(T object : objects) {
+                var id = getFilelizeId(objectMapper, object);
+                objectsToUpdate.put(id, object);
+            }
+            return save2(objectsToUpdate);
+        } finally {
+            lock.unlock();
         }
-        var ids = save2(objectsToUpdate);
-        return ids;
     }
 
     @Override
     public <T> void delete(String id, Class<T> valueType) {
-        Map<String, T> all = findAll(valueType);
-        all.remove(id);
-        save2(all);
+        var lock = FileLocks.forPath(pathHandler.getFullPath(valueType));
+        lock.lock();
+        try {
+            Map<String, T> all = findAll(valueType);
+            all.remove(id);
+            save2(all);
+        } finally {
+            lock.unlock();
+        }
     }
 
     public <T> List<String> save2(Map<String, T> objects) {
