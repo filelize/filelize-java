@@ -1,13 +1,13 @@
 [ {
+  "created" : "2024-03-03T00:00:00Z",
   "id" : "e10",
-  "created" : "2024-03-03T00:00:00Z",
   "value" : "Some Value"
 }, {
+  "created" : "2024-03-03T00:00:00Z",
   "id" : "e11",
-  "created" : "2024-03-03T00:00:00Z",
   "value" : "Some Value"
 }, {
-  "id" : "e12",
   "created" : "2024-03-03T00:00:00Z",
+  "id" : "e12",
   "value" : "Some Value"
 } ]

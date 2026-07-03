@@ -1,6 +1,7 @@
 package io.github.filelize;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
@@ -79,10 +80,17 @@ public class Filelizer implements IFilelizer {
         };
     }
 
+    // enable(MapperFeature...) is deprecated in favor of JsonMapper.builder(), but that only
+    // applies when building a mapper from scratch. Since callers may pass in their own
+    // already-built ObjectMapper (see the Spring Boot constructor), it must be reconfigured
+    // in place, and Jackson provides no non-deprecated way to do that.
+    @SuppressWarnings("deprecation")
     private static ObjectMapper prepareObjectMapper(ObjectMapper objectMapper) {
         objectMapper.findAndRegisterModules();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        objectMapper.enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
+        objectMapper.setAnnotationIntrospector(new FilelizeIdFirstAnnotationIntrospector());
         return objectMapper;
     }
 }
