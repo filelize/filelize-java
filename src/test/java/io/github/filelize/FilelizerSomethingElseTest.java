@@ -1,5 +1,6 @@
 package io.github.filelize;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZoneOffset;
@@ -10,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class FilelizerSomethingElseTest {
+class FilelizerSomethingElseTest {
 
     private final Filelizer filelizer;
 
@@ -19,7 +20,7 @@ public class FilelizerSomethingElseTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         var somethingElse = createSomethingElse("e1");
         var id = filelizer.save(somethingElse);
         assertEquals("SomethingElse", id);
@@ -29,7 +30,7 @@ public class FilelizerSomethingElseTest {
     }
 
     @Test
-    public void testSaveWithId() {
+    void testSaveWithId() {
         var somethingElse = createSomethingElse("e2");
         var id = filelizer.save("my_something_else", somethingElse);
         assertEquals("my_something_else", id);
@@ -39,7 +40,7 @@ public class FilelizerSomethingElseTest {
     }
 
     @Test
-    public void testSaveAll() {
+    void testSaveAll() {
         var somethings = createSomethingElseList();
         List<String> ids = filelizer.saveAll(somethings);
         assertEquals("SomethingElse_all", ids.stream().findFirst().orElse(null));
@@ -48,7 +49,18 @@ public class FilelizerSomethingElseTest {
     }
 
     @Test
-    public void testSync_WhenLocalRecordIsOlder() {
+    void testFind_WithTypeReferenceList() {
+        var somethings = createSomethingElseList();
+        filelizer.saveAll(somethings);
+
+        var response = filelizer.find("SomethingElse_all", new TypeReference<List<SomethingElse>>() {});
+
+        assertNotNull(response);
+        assertEquals(3, response.size());
+    }
+
+    @Test
+    void testSync_WhenLocalRecordIsOlder() {
         var local = createSomethingElse("sync_object");
         local.setCreated(ZonedDateTime.of(2024, 3, 3, 0, 0, 0, 0, ZoneOffset.UTC));
         local.setValue("Local Value");

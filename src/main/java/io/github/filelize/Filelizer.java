@@ -1,5 +1,7 @@
 package io.github.filelize;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,27 +22,43 @@ public class Filelizer implements IFilelizer {
     private final FilelizerObject filelizerObject;
     private final FilelizerSingle filelizerSingle;
     private final FilelizerMultiple filelizerMultiple;
+    private final ObjectMapper objectMapper;
     private final FilelizeType defaultFilelizeType;
 
     public Filelizer(String basePath) {
-        var objectMapper = prepareObjectMapper(new ObjectMapper());
-        this.filelizerObject = new FilelizerObject(basePath, objectMapper);
-        this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
-        this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
+        this.objectMapper = prepareObjectMapper(new ObjectMapper());
+        this.filelizerObject = new FilelizerObject(basePath, this.objectMapper);
+        this.filelizerSingle = new FilelizerSingle(basePath, this.objectMapper);
+        this.filelizerMultiple = new FilelizerMultiple(basePath, this.objectMapper);
         this.defaultFilelizeType = FilelizeType.OBJECT_FILE;
     }
 
-    public Filelizer(String basePath, ObjectMapper _objectMapper, FilelizeType defaultFilelizeType) {
-        var objectMapper = prepareObjectMapper(_objectMapper);
-        this.filelizerObject = new FilelizerObject(basePath, objectMapper);
-        this.filelizerSingle = new FilelizerSingle(basePath, objectMapper);
-        this.filelizerMultiple = new FilelizerMultiple(basePath, objectMapper);
+    public Filelizer(String basePath, ObjectMapper objectMapper, FilelizeType defaultFilelizeType) {
+        this.objectMapper = prepareObjectMapper(objectMapper);
+        this.filelizerObject = new FilelizerObject(basePath, this.objectMapper);
+        this.filelizerSingle = new FilelizerSingle(basePath, this.objectMapper);
+        this.filelizerMultiple = new FilelizerMultiple(basePath, this.objectMapper);
         this.defaultFilelizeType = defaultFilelizeType;
     }
 
     @Override
     public <T> T find(String id, Class<T> valueType) {
         return resolveFilelizerType(valueType).find(id, valueType);
+    }
+
+    public <T> T find(String id, TypeReference<T> typeReference) {
+        var javaType = objectMapper.getTypeFactory().constructType(typeReference);
+        var dispatchClass = resolveDispatchClass(javaType);
+        Object fileContent = resolveFilelizerType(dispatchClass).find(id, javaType.getRawClass());
+        if (fileContent == null) {
+            return null;
+        }
+        try {
+            return objectMapper.convertValue(fileContent, typeReference);
+        } catch (IllegalArgumentException e) {
+            log.error("Error occurred when trying to deserialize {} as {}", id, javaType, e);
+            return null;
+        }
     }
 
     @Override
@@ -78,6 +96,16 @@ public class Filelizer implements IFilelizer {
             case SINGLE_FILE -> filelizerSingle;
             case OBJECT_FILE -> filelizerObject;
         };
+    }
+
+    private Class<?> resolveDispatchClass(JavaType javaType) {
+        if (javaType.isCollectionLikeType() && javaType.getContentType() != null) {
+            return resolveDispatchClass(javaType.getContentType());
+        }
+        if (javaType.isMapLikeType() && javaType.getContentType() != null) {
+            return resolveDispatchClass(javaType.getContentType());
+        }
+        return javaType.getRawClass();
     }
 
     // enable(MapperFeature...) is deprecated in favor of JsonMapper.builder(), but that only

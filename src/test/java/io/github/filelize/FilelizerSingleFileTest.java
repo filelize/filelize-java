@@ -1,5 +1,6 @@
 package io.github.filelize;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZoneOffset;
@@ -9,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FilelizerSingleFileTest {
+class FilelizerSingleFileTest {
 
     private final Filelizer filelizer;
 
@@ -18,7 +19,7 @@ public class FilelizerSingleFileTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         var something = createSomethingSingle("s1");
         var id = filelizer.save(something);
         assertEquals("s1", id);
@@ -28,7 +29,7 @@ public class FilelizerSingleFileTest {
     }
 
     @Test
-    public void testSaveAll() {
+    void testSaveAll() {
         var somethings = createSomethingSingleList();
         var ids = filelizer.saveAll(somethings);
         assertNotNull(ids);
@@ -36,7 +37,7 @@ public class FilelizerSingleFileTest {
         assertNotNull(response);
     }
     @Test
-    public void testDelete() {
+    void testDelete() {
         var something = createSomethingSingle("should_be_deleted");
         var id = filelizer.save(something);
         assertEquals("should_be_deleted", id);
@@ -46,13 +47,24 @@ public class FilelizerSingleFileTest {
         assertNull(response);
     }
     @Test
-    public void testFind_WhenFileIsMissing() {
+    void testFind_WhenFileIsMissing() {
         var response = filelizer.find("n/a", SomethingElse.class);
         assertNull(response);
     }
 
     @Test
-    public void testSync_WhenLocalRecordIsOlder() {
+    void testFind_WithTypeReference() {
+        var something = createSomethingSingle("typed_single");
+        filelizer.save(something);
+
+        var response = filelizer.find("typed_single", new TypeReference<SomethingSingle>() {});
+
+        assertNotNull(response);
+        assertEquals("typed_single", response.getId());
+    }
+
+    @Test
+    void testSync_WhenLocalRecordIsOlder() {
         var local = createSomethingSingle("sync_single");
         local.setCreated(ZonedDateTime.of(2024, 2, 2, 0, 0, 0, 0, ZoneOffset.UTC));
         local.setName("Local Name");
@@ -77,7 +89,7 @@ public class FilelizerSingleFileTest {
     }
 
     @Test
-    public void testSync_WhenLocalRecordIsFresh() {
+    void testSync_WhenLocalRecordIsFresh() {
         var local = createSomethingSingle("sync_single_fresh");
         local.setCreated(ZonedDateTime.of(2026, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
         local.setName("Local Name");

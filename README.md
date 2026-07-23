@@ -20,7 +20,7 @@ To integrate [Filelizer](https://mvnrepository.com/artifact/io.github.filelize/f
 ```
 For Gradle, you can use:
 ```groovy
-implementation 'io.github.filelize:filelize-java:0.9.7'
+implementation 'io.github.filelize:filelize-java:0.9.9'
 ```
 
 Ref: [Publish your artifact to the Maven Central Repository using GitHub Actions](https://medium.com/@jtbsorensen/publish-your-artifact-to-the-maven-central-repository-using-github-actions-15d3b5d9ce88)
@@ -44,9 +44,12 @@ List<String> ids = filelizer.saveAll(somethings);
 ```java
 Something something = filelizer.find("id1", Something.class);
 ```
+```java
+List<Something> somethings = filelizer.find("filename", new TypeReference<List<Something>>() {});
+```
 #### FindAll objects:
 ```java
-List<Something> somethings = filelizer.findAll(Something.class);
+Map<String, Something> somethings = filelizer.findAll(Something.class);
 ```
 
 ### Saving to a single file

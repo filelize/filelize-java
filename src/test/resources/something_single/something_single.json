@@ -18,5 +18,10 @@
     "id" : "s12",
     "created" : "2024-02-02T00:00:00Z",
     "name" : "Some Name"
+  },
+  "typed_single" : {
+    "id" : "typed_single",
+    "created" : "2024-02-02T00:00:00Z",
+    "name" : "Some Name"
   }
 }

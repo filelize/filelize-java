@@ -1,5 +1,6 @@
 package io.github.filelize;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZoneOffset;
@@ -9,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FilelizerMultipleFilesTest {
+class FilelizerMultipleFilesTest {
 
     private final Filelizer filelizer;
 
@@ -18,7 +19,7 @@ public class FilelizerMultipleFilesTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         var something = createSomethingMultiple("m1");
         var id = filelizer.save(something);
         assertEquals("m1", id);
@@ -28,7 +29,7 @@ public class FilelizerMultipleFilesTest {
     }
 
     @Test
-    public void testSaveAll() {
+    void testSaveAll() {
         var somethings = createSomethingMultipleList();
         var ids = filelizer.saveAll(somethings);
         assertNotNull(ids);
@@ -37,7 +38,7 @@ public class FilelizerMultipleFilesTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         var something = createSomethingMultiple("should_be_deleted");
         var id = filelizer.save(something);
         assertEquals("should_be_deleted", id);
@@ -48,7 +49,18 @@ public class FilelizerMultipleFilesTest {
     }
 
     @Test
-    public void testSync_WhenLocalRecordIsOlder() {
+    void testFind_WithTypeReference() {
+        var something = createSomethingMultiple("typed_multiple");
+        filelizer.save(something);
+
+        var response = filelizer.find("typed_multiple", new TypeReference<SomethingMultiple>() {});
+
+        assertNotNull(response);
+        assertEquals("typed_multiple", response.getId());
+    }
+
+    @Test
+    void testSync_WhenLocalRecordIsOlder() {
         var local = createSomethingMultiple("sync_multiple");
         local.setCreated(ZonedDateTime.of(2024, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
         local.setName("Local Name");
